@@ -1,6 +1,9 @@
 package tree
 
-import "datastruct-go/dataStruct/listarr"
+import (
+	"datastruct-go/dataStruct/listarr"
+	"log"
+)
 
 //KeyType 关键字类型
 type KeyType int
@@ -105,22 +108,22 @@ func BSearch2(lst listarr.List, k KeyType, x *listarr.T) bool {
 }
 
 //bSearchTr 二叉搜索树(递归算法)
-func bSearchTr(node *BTNode, k KeyType) *T {
+func btSearch(node *BTNode, k KeyType) *T {
 	if node == nil {
 		return nil
 	}
 	if KeyType(node.Element) == k {
 		return &node.Element
 	} else if KeyType(node.Element) < k {
-		return bSearchTr(node.LChild, k)
+		return btSearch(node.LChild, k)
 	} else {
-		return bSearchTr(node.RChild, k)
+		return btSearch(node.RChild, k)
 	}
 }
 
 //BSearchTree 二叉搜索树(递归算法)
-func BSearchTree(tree Btree, k KeyType, x *T) bool {
-	var res = bSearchTr(tree.Root, k)
+func BtSearch(tree Btree, k KeyType, x *T) bool {
+	var res = btSearch(tree.Root, k)
 	if res == nil {
 		return false
 	}
@@ -129,7 +132,7 @@ func BSearchTree(tree Btree, k KeyType, x *T) bool {
 }
 
 //BSearchTree2 二叉搜索树（迭代算法）
-func BSearchTree2(tree Btree, k KeyType, x *T) bool {
+func BtSearch2(tree Btree, k KeyType, x *T) bool {
 	var node = tree.Root
 	if node == nil {
 		return false
@@ -145,6 +148,79 @@ func BSearchTree2(tree Btree, k KeyType, x *T) bool {
 		}
 	}
 	return false
+}
+
+//BtInsert 二叉搜索树的插入
+func BtInsert(tree *Btree, x T) bool {
+	var q, p *BTNode
+	p = tree.Root
+	var k = x
+	for p != nil {
+		q = p
+		if p.Element == k {
+			log.Printf("Duplicate")
+			return false
+		} else if p.Element > k {
+			p = p.LChild
+		} else {
+			p = p.RChild
+		}
+	}
+	var r = NewNode2(x)
+	if tree.Root != nil {
+		if k < q.Element {
+			q.LChild = r
+		} else {
+			q.RChild = r
+		}
+	} else {
+		tree.Root = r
+	}
+	return true
+}
+
+//BtRemove 二叉搜索树的删除
+func BtRemove(tree *Btree, k KeyType, x *T) bool {
+	var c, r, s, p, q *BTNode
+	p = tree.Root
+	for p != nil && KeyType(p.Element) != k {
+		q = p
+		if k < KeyType(p.Element) {
+			p = p.LChild
+		} else {
+			p = p.RChild
+		}
+	}
+	if p == nil {
+		log.Printf("No element with k")
+		return false
+	}
+	*x = p.Element
+	if p.LChild != nil && p.RChild != nil {
+		s = p.RChild
+		r = p
+		for s.LChild != nil {
+			r = s
+			s = s.LChild
+		}
+		p.Element = s.Element
+		p = s
+		q = r
+	}
+	if p.LChild != nil {
+		c = p.LChild
+	} else {
+		c = p.RChild
+	}
+	if p == tree.Root {
+		tree.Root = c
+	} else if p == q.LChild {
+		q.LChild = c
+	} else {
+		q.RChild = c
+	}
+	p = nil
+	return true
 }
 
 //BFSearch 斐波那契搜索

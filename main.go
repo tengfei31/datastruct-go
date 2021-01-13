@@ -16,7 +16,8 @@ func main() {
 	//testHeap()
 	//testHFMCode()
 	//testUFset()
-	testBFSearch()
+	//testBFSearch()
+	testBtSearch()
 
 	//sortArr()
 	//handleArr()
@@ -212,4 +213,29 @@ func testBFSearch() {
 	}
 	fmt.Println("斐波那契搜索函数返回：", x)
 
+}
+
+//testBtSearch 测试二叉搜索树
+func testBtSearch() {
+	var bt *tree.Btree = new(tree.Btree)
+	tree.BtInsert(bt, 28)
+	tree.BtInsert(bt, 21)
+	tree.BtInsert(bt, 25)
+	tree.BtInsert(bt, 36)
+	tree.BtInsert(bt, 33)
+	tree.BtInsert(bt, 43)
+	//中序遍历bt
+	bt.InOrder()
+
+	//二叉搜索树删除节点
+	var x *tree.T = new(tree.T)
+	var res bool = tree.BtRemove(bt, 28, x)
+	if !res {
+		log.Printf("btremove is false")
+		return
+	}
+	//中序遍历bt
+	bt.InOrder()
+	fmt.Printf("%+v\n", bt.Root)
+	fmt.Println(*x)
 }

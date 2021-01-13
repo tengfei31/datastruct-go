@@ -22,6 +22,15 @@ func NewNode() *BTNode {
 	return new(BTNode)
 }
 
+//NewNode2 构造新节点
+func NewNode2(x T) *BTNode {
+	var p = new(BTNode)
+	p.Element = x
+	p.LChild = nil
+	p.RChild = nil
+	return p
+}
+
 //Visit 打印每个节点元素
 func Visit(p *BTNode) {
 	fmt.Printf("%d\n", p.Element)
