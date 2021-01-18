@@ -8,9 +8,10 @@ import (
 //T 节点元素值
 type T int
 
-type K *BTNode
-
-//BTNode 节点
+// BTNode 节点
+//	LTag RTag 链接上下级节点
+//	LChild RChild 左右子树
+//	Element 元素值
 type BTNode struct {
 	Element        T
 	LChild, RChild *BTNode

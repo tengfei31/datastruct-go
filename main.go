@@ -17,7 +17,8 @@ func main() {
 	//testHFMCode()
 	//testUFset()
 	//testBFSearch()
-	testBtSearch()
+	//testBtSearch()
+	testAVLBTree()
 
 	//sortArr()
 	//handleArr()
@@ -238,4 +239,16 @@ func testBtSearch() {
 	bt.InOrder()
 	fmt.Printf("%+v\n", bt.Root)
 	fmt.Println(*x)
+}
+
+//testAVLBTree 测试二叉平衡树
+func testAVLBTree() {
+	var bt *tree.AVLBTree = new(tree.AVLBTree)
+	tree.AVLInsert(bt, 45)
+	tree.AVLInsert(bt, 28)
+	tree.AVLInsert(bt, 15)
+	tree.AVLInsert(bt, 12)
+	tree.AVLInsert(bt, 14)
+	tree.AVLInsert(bt, 23)
+	fmt.Printf("%+v\n", bt.Root)
 }
