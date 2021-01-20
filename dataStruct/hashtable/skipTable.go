@@ -37,8 +37,10 @@ type SkipList struct {
 }
 
 //NewSkipList 创建跳表
-func NewSkipList() *SkipList {
-	return &SkipList{}
+func NewSkipList(maxNum KeyType, maxLev int) *SkipList {
+	var skipList = new(SkipList)
+	skipList.CreateSkipList(maxNum, maxLev)
+	return skipList
 }
 
 //CreateSkipList 初始化跳表
@@ -52,7 +54,8 @@ func (sl *SkipList) CreateSkipList(maxNum KeyType, maxLev int) {
 	sl.Last = make([]*SkipNode, 0, maxLev+1)
 	sl.Tail.Element.Key = maxNum
 	for i = 0; i <= maxLev; i++ {
-		sl.Head.Link[i] = sl.Tail
+		//sl.Head.Link[i] = sl.Tail
+		sl.Head.Link = append(sl.Head.Link, sl.Tail)
 	}
 }
 
@@ -95,7 +98,11 @@ func (sl *SkipList) saveSearch(k KeyType) *SkipNode {
 		for p.Link[i].Element.Key < k {
 			p = p.Link[i]
 		}
-		sl.Last[i] = p
+		if len(sl.Last) <= 0 {
+			sl.Last = append(sl.Last, p)
+		} else {
+			sl.Last[i] = p
+		}
 	}
 	return p.Link[0]
 }
@@ -117,12 +124,14 @@ func (sl *SkipList) Insert(x T) bool {
 	if lev > sl.Level {
 		sl.Level += 1
 		lev = sl.Level
-		sl.Last[lev] = sl.Head
+		sl.Last = append(sl.Last, sl.Head)
+		//sl.Last[lev] = sl.Head
 	}
 	y = NewSkipNode(lev)
 	y.Element = x
 	for i = 0; i <= lev; i++ {
-		y.Link[i] = sl.Last[i].Link[i]
+		y.Link = append(y.Link, sl.Last[i].Link[i])
+		//y.Link[i] = sl.Last[i].Link[i]
 		sl.Last[i].Link[i] = y
 	}
 	return true

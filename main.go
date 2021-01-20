@@ -2,13 +2,13 @@ package main
 
 import (
 	"bytes"
+	"datastruct-go/dataStruct/hashtable"
 	"datastruct-go/dataStruct/listarr"
 	"datastruct-go/dataStruct/tree"
 	"fmt"
 	"io"
 	"log"
 	"os/exec"
-	"sort"
 )
 
 func main() {
@@ -18,62 +18,28 @@ func main() {
 	//testUFset()
 	//testBFSearch()
 	//testBtSearch()
-	testAVLBTree()
+	//testAVLBTree()
+	testSkipTable()
 
-	//sortArr()
 	//handleArr()
-
 	//nginxPipe()
 	//createPipe()
-
-}
-
-var arr []int
-
-func InitArr() {
-	arr = append(arr, 1)
-	arr = append(arr, 2)
-	arr = append(arr, 2)
-	arr = append(arr, 2)
-	arr = append(arr, 2)
-	arr = append(arr, 1)
-	arr = append(arr, 1)
-	arr = append(arr, 2)
-	arr = append(arr, 1)
-	arr = append(arr, 1)
-	arr = append(arr, 1)
-	arr = append(arr, 1)
 }
 
 func handleArr() {
-	var tmp []int
-	var i int
-	var arrLen = len(arr) / 2
-	if len(arr)%2 > 0 {
-		arrLen += 1
-	}
-	for i = 0; i < arrLen; i++ {
-		tmp = append(tmp, arr[i])
-		if i >= len(arr)-(1+i) {
-			break
-		}
-		tmp = append(tmp, arr[len(arr)-(1+i)])
-	}
-	fmt.Println(arr)
-	fmt.Println(tmp)
-}
-
-//sortArr 排序
-func sortArr() {
-	InitArr()
-	sort.Ints(arr)
-	//var i, j int
-	//var tmpArr []int
+	var arr []int = make([]int, 0, 10)
+	arr[0] = 1
+	//arr = append(arr, 1)
+	//arr = append(arr, 2)
+	//arr = append(arr, 3)
+	//arr = append(arr, 4)
+	//arr = append(arr, 5)
+	//var i int
 	//for i = 0; i < len(arr); i++ {
-	//	for j = i; j < len(arr); j++ {
-	//
-	//	}
+	//	arr[i] = arr[i] + i
 	//}
+
+	fmt.Println(arr)
 }
 
 func createPipe() {
@@ -251,4 +217,25 @@ func testAVLBTree() {
 	tree.AVLInsert(bt, 14)
 	tree.AVLInsert(bt, 23)
 	fmt.Printf("%+v\n", bt.Root)
+}
+
+//testSkipTable 测试跳表
+func testSkipTable() {
+	var skip = hashtable.NewSkipList(100000, 10)
+	skip.Insert(hashtable.T{Key: 3, Data: 1})
+	skip.Insert(hashtable.T{Key: 7, Data: 20})
+	skip.Insert(hashtable.T{Key: 19, Data: 30})
+	skip.Insert(hashtable.T{Key: 22, Data: 40})
+	skip.Insert(hashtable.T{Key: 43, Data: 40})
+	skip.Insert(hashtable.T{Key: 48, Data: 40})
+	skip.Insert(hashtable.T{Key: 70, Data: 40})
+
+	fmt.Println("skip的层级:", skip.Level)
+	var x *hashtable.T = new(hashtable.T)
+	var res = skip.Search(70, x)
+	if !res {
+		log.Fatalf("没有找到k")
+	}
+
+	fmt.Println(x, skip.Level)
 }
