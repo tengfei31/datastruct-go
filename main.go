@@ -12,6 +12,9 @@ import (
 )
 
 func main() {
+	var byt []byte = []byte{'a', 'z', 'A', 'Z', ' ', '!'}
+	fmt.Printf("%d", byt)
+
 	//testBtree()
 	//testHeap()
 	//testHFMCode()
@@ -19,7 +22,8 @@ func main() {
 	//testBFSearch()
 	//testBtSearch()
 	//testAVLBTree()
-	testSkipTable()
+	//testSkipTable()
+	//testHashTable()
 
 	//handleArr()
 	//nginxPipe()
@@ -222,14 +226,21 @@ func testAVLBTree() {
 //testSkipTable 测试跳表
 func testSkipTable() {
 	var skip = hashtable.NewSkipList(100000, 10)
-	skip.Insert(hashtable.T{Key: 3, Data: 1})
-	skip.Insert(hashtable.T{Key: 7, Data: 20})
-	skip.Insert(hashtable.T{Key: 19, Data: 30})
-	skip.Insert(hashtable.T{Key: 22, Data: 40})
-	skip.Insert(hashtable.T{Key: 43, Data: 40})
-	skip.Insert(hashtable.T{Key: 48, Data: 40})
-	skip.Insert(hashtable.T{Key: 70, Data: 40})
-
+	var insertArr = []hashtable.T{
+		{Key: 3, Data: 1},
+		{Key: 7, Data: 20},
+		{Key: 19, Data: 30},
+		{Key: 22, Data: 40},
+		{Key: 43, Data: 40},
+		{Key: 48, Data: 40},
+		{Key: 70, Data: 40},
+	}
+	for _, v := range insertArr {
+		insert := skip.Insert(v)
+		if !insert {
+			fmt.Println("insert失败:", v)
+		}
+	}
 	fmt.Println("skip的层级:", skip.Level)
 	var x *hashtable.T = new(hashtable.T)
 	var res = skip.Search(70, x)
@@ -238,4 +249,44 @@ func testSkipTable() {
 	}
 
 	fmt.Println(x, skip.Level)
+}
+
+//testHashTable 测试散列表
+func testHashTable() {
+	var hashTB *hashtable.HashTable = new(hashtable.HashTable)
+	var divitor = 13
+	//初始化
+	hashtable.CreateHashTable(hashTB, divitor)
+	var insertArr = []hashtable.T{
+		{Key: 1, Data: 1},
+		{Key: 2, Data: 2},
+		{Key: 3, Data: 3},
+		{Key: 4, Data: 4},
+		{Key: 5, Data: 5},
+		{Key: 15, Data: 15},
+	}
+	for _, v := range insertArr {
+		var insert = hashTB.Insert(v)
+		if !insert {
+			log.Println("")
+			continue
+		}
+	}
+	var x = new(hashtable.T)
+	var searchKey hashtable.KeyType = 15
+	var search = hashTB.Search(searchKey, x)
+	if !search {
+		log.Fatalf("没有找到:%d", searchKey)
+	}
+
+	fmt.Println("散列表:", hashTB)
+	fmt.Println("散列表搜索结果:", x)
+
+	var del = hashTB.Delete(searchKey, x)
+	if !del {
+		log.Fatalf("删除失败:%d", searchKey)
+	}
+	fmt.Println("散列表:", hashTB)
+	fmt.Println("散列表删除结果:", x)
+
 }

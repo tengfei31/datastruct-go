@@ -4,7 +4,6 @@ import (
 	"log"
 	"math"
 	"math/rand"
-	"time"
 )
 
 type KeyType int
@@ -63,8 +62,8 @@ func (sl *SkipList) CreateSkipList(maxNum KeyType, maxLev int) {
 func (sl *SkipList) CountLevel() int {
 	var lev int
 	//随机数
-	rand.Seed(time.Now().UnixNano())
-	for rand.Intn(math.MaxInt32) < (math.MaxInt32 / 2) {
+	rand.Seed(1)
+	for rand.Intn(math.MaxInt16) <= (math.MaxInt16 / 2) {
 		lev++
 	}
 	if lev <= sl.MaxLevel {
