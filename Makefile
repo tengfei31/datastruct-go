@@ -4,6 +4,9 @@ go_path=`go env GOPATH`
 debugParam=-gcflags "-N -l"
 
 build:
+	go build -o $(project) main.go
+
+debug:
 	go build -o $(project) $(debugParam) main.go
 
 install:

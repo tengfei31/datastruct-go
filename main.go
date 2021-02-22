@@ -9,11 +9,29 @@ import (
 	"io"
 	"log"
 	"os/exec"
+	"unsafe"
 )
 
+type s1 struct {
+	i1 int8
+	i2 int16
+	i3 int32
+}
+
+type s2 struct {
+	i1 int8
+	i2 *int16
+	i3 int32
+	//_ [3]int8
+}
+
 func main() {
-	var byt []byte = []byte{'a', 'z', 'A', 'Z', ' ', '!'}
-	fmt.Printf("%d", byt)
+	var arr []int = make([]int, 0, 10)
+	arr = []int{1, 2, 3}
+	handleArr(arr)
+
+	fmt.Println(unsafe.Sizeof(s1{}))
+	fmt.Println(unsafe.Sizeof(s2{}))
 
 	//testBtree()
 	//testHeap()
@@ -30,9 +48,8 @@ func main() {
 	//createPipe()
 }
 
-func handleArr() {
-	var arr []int = make([]int, 0, 10)
-	arr[0] = 1
+func handleArr(arr []int) {
+	arr[1] = 11
 	//arr = append(arr, 1)
 	//arr = append(arr, 2)
 	//arr = append(arr, 3)
@@ -42,8 +59,6 @@ func handleArr() {
 	//for i = 0; i < len(arr); i++ {
 	//	arr[i] = arr[i] + i
 	//}
-
-	fmt.Println(arr)
 }
 
 func createPipe() {
