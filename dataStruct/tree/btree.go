@@ -66,8 +66,7 @@ func (bt *Btree) InOrder() {
 	bt.Root.InOrd()
 }
 
-//TODO: 还有问题，需要修改
-//IInOrder 中序遍历
+//IInOrder 中序遍历 TODO: 还有问题，需要修改
 func (bt *Btree) IInOrder() {
 	var s []*BTNode
 	var p *BTNode

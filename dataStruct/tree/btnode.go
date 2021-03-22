@@ -110,8 +110,7 @@ func (node *BTNode) CopyBT() *BTNode {
 
 //二叉线索树
 
-//TODO:还有问题，需要修改
-//MakeThread 构造中序线索树
+//MakeThread TODO:还有问题，需要修改 构造中序线索树
 func (node *BTNode) MakeThread(ppr **BTNode) {
 	var t = node
 	if t != nil {

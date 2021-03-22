@@ -3,11 +3,18 @@ go_path=`go env GOPATH`
 #是否用gdb调试
 debugParam=-gcflags "-N -l"
 
+ifeq ($(LANG),)
+	execFile=$(project).exe
+else
+	execFile=$(project)
+endif
+
 build:
-	go build -o $(project) main.go
+	go build -o $(execFile) main.go
+
 
 debug:
-	go build -o $(project) $(debugParam) main.go
+	go build -o $(execFile) $(debugParam) main.go
 
 install:
 	go install
@@ -15,6 +22,5 @@ install:
 .PHONY: clean
 
 clean:
-	-rm -rf $(project) \
-			$(go_path)/bin/$(project) \
-			$(go_path)/bin/$(project).exe
+	-rm -rf $(execFile) \
+		$(go_path)/bin/$(execFile)

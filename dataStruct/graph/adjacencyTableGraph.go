@@ -19,14 +19,14 @@ type AdjacencyTableGraph struct {
 	A        []*ENode
 }
 
+//InDegree 拓扑排序
+var InDegree []int
+
 //CreateGraph 构造一个有n个顶点，但不包含边的有向图
 func (*AdjacencyTableGraph) CreateGraph(g *AdjacencyTableGraph, n int) {
-	//var i int
 	g.Vertices = n
-	g.A = make([]*ENode, n)
-	// for i = 0; i < n; i++ {
-	// 	g.A[i] =
-	// }
+	g.A = make([]*ENode, 0, n)
+	InDegree = make([]int, 0, n)
 }
 
 //NewENode 构建新的边结点
@@ -58,12 +58,13 @@ func (*AdjacencyTableGraph) Exist(g *AdjacencyTableGraph, u int, v int) bool {
 func (*AdjacencyTableGraph) Add(g *AdjacencyTableGraph, u int, v int, w T) bool {
 	var n = g.Vertices
 	var p *ENode
-	if u < 0 || v < 0 || u > n-1 || v > n-1 || g.Exist(g, u, v) {
+	if u < 0 || v < 0 || u > n-1 || v > n-1 || u == v || g.Exist(g, u, v) {
 		log.Println("bad input")
 		return false
 	}
 	p = NewENode(v, w, g.A[u])
 	g.A[u] = p
+	InDegree[v]++
 	return true
 }
 
