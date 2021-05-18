@@ -9,7 +9,6 @@ import (
 	"io"
 	"log"
 	"os/exec"
-	"unsafe"
 )
 
 type s1 struct {
@@ -26,26 +25,46 @@ type s2 struct {
 }
 
 func main() {
-	var arr []int = make([]int, 0, 10)
-	arr = []int{1, 2, 3}
-	handleArr(arr)
+	defer func() {
+		if e := recover(); e != nil {
+			fmt.Println(e)
+		}
+	}()
+	deferCall()
+	//[0,1,2,3,4]
+	//[0,1,2,2,1]
+	nums := []int{0, 1, 2, 3, 4}
+	index := []int{0, 1, 2, 2, 1}
+	target := createTargetArray(nums, index)
+	fmt.Println(target)
+}
 
-	fmt.Println(unsafe.Sizeof(s1{}))
-	fmt.Println(unsafe.Sizeof(s2{}))
+func deferCall() {
+	fmt.Println("1")
+	defer func() { fmt.Println("A") }()
+	fmt.Println("2")
+	defer func() { fmt.Println("B") }()
+	fmt.Println("3")
+	panic("触发异常")
+	defer func() { fmt.Println("C") }()
+	fmt.Println("4")
+}
 
-	//testBtree()
-	//testHeap()
-	//testHFMCode()
-	//testUFset()
-	//testBFSearch()
-	//testBtSearch()
-	//testAVLBTree()
-	//testSkipTable()
-	//testHashTable()
-
-	//handleArr()
-	//nginxPipe()
-	//createPipe()
+func createTargetArray(nums []int, index []int) []int {
+	var target = make([]int, len(index))
+	for i := 0; i < len(target); i++ {
+		target[i] = -1
+	}
+	for i := 0; i < len(index); i++ {
+		key := index[i]
+		val := nums[i]
+		//处理key的位置存在值
+		if target[key] > -1 {
+			copy(target[key+1:], target[key:])
+		}
+		target[key] = val
+	}
+	return target
 }
 
 func handleArr(arr []int) {

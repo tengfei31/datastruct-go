@@ -43,7 +43,7 @@ func Earliest(g AdjacencyTableGraph, order []int, earliest []int) {
 	var i, k int
 	var p *ENode
 	var n int = g.Vertices
-	earliest = make([]int, 0, n)
+	earliest = make([]int, n)
 	for i = 0; i < n; i++ {
 		k = order[i]
 		for p = g.A[k]; p != nil; p = p.NextArc {

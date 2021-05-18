@@ -39,3 +39,6 @@ type DataType int
 
 //T 数据的类型
 type T int
+
+const MaxNum T = 100
+const MaxVertices T = 100
