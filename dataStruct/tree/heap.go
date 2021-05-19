@@ -1,6 +1,8 @@
 package tree
 
-import "log"
+import (
+	"log"
+)
 
 const MaxSize = 10
 
@@ -13,13 +15,21 @@ type MinHeap struct {
 
 //AdjustDown 最小堆向下调整
 func AdjustDown(heap []T, r int, n int) {
-	var child int = r * 2
-	var temp T = heap[r]
+	var child = r * 2
+	var temp = heap[r]
 	for child <= n {
-		if child < n && heap[child] > heap[child+1] {
+		// T = int
+		//if child < n && heap[child] > heap[child+1] {
+		//	child++
+		//}
+		//if temp <= heap[child] {
+		//	break
+		//}
+		// T = graph.EdgeNode
+		if child < n && heap[child].W > heap[child+1].W {
 			child++
 		}
-		if temp <= heap[child] {
+		if temp.W < heap[child].W {
 			break
 		}
 		heap[child/2] = heap[child]
@@ -30,20 +40,25 @@ func AdjustDown(heap []T, r int, n int) {
 
 //AdjustUp 最小堆向上调整
 func AdjustUp(heap []T, n int) {
-	var i int = n
-	var temp T = (heap)[i]
-	for i != 1 && temp < (heap)[i/2] {
-		(heap)[i] = (heap)[i/2]
-		//hp.Elements[i/2] = temp
+	var i = n
+	var temp = heap[i]
+	// T = int
+	//for i != 1 && temp < heap[i/2] {
+	//	heap[i] = heap[i/2]
+	//	i /= 2
+	//}
+	// T = graph.EdgeNode
+	for i != 1 && temp.W < heap[i/2].W {
+		heap[i] = heap[i/2]
 		i /= 2
 	}
-	(heap)[i] = temp
+	heap[i] = temp
 }
 
 //CreateHeap 创建最小堆
 func CreateHeap(hp *MinHeap) {
 	var i int
-	var n int = hp.Size
+	var n = hp.Size
 	for i = n / 2; i > 0; i-- {
 		AdjustDown(hp.Elements, i, n)
 	}
@@ -56,8 +71,11 @@ type PQueue MinHeap
 func (pq *PQueue) CreatePQ(maxSize int) {
 	pq.MaxHeap = maxSize
 	pq.Size = 0
-	pq.Elements = make([]T, 0, pq.MaxHeap)
-	pq.Elements[0] = 0
+	pq.Elements = make([]T, pq.MaxHeap)
+	// T = int
+	//pq.Elements[0] = 0
+	// T = graph.EdgeNode
+	pq.Elements[0] = T{}
 }
 
 //IsEmpty 优先权队列是否为空
@@ -81,7 +99,7 @@ func (pq *PQueue) Append(x T) {
 	AdjustUp(pq.Elements, pq.Size)
 }
 
-//Server 返回最高优先权的元素值，并从队列中删除该元素
+// Serve 返回最高优先权的元素值，并从队列中删除该元素
 func (pq *PQueue) Serve() T {
 	if pq.IsEmpty() == true {
 		log.Fatalf("Underflow")

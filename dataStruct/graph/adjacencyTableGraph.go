@@ -2,6 +2,7 @@ package graph
 
 import (
 	"datastruct-go/dataStruct/stack"
+	"datastruct-go/dataStruct/tree"
 	"fmt"
 	"log"
 )
@@ -155,7 +156,7 @@ func (g AdjacencyTableGraph) TraversalBFS() {
 	}
 }
 
-// Prim 普里姆算法
+// Prim 最小代价生成树：普里姆算法
 func (g AdjacencyTableGraph) Prim(k int, nearest []int, lowcost []T) {
 	var i, j, n int
 	n = g.Vertices
@@ -197,5 +198,44 @@ func (g AdjacencyTableGraph) Prim(k int, nearest []int, lowcost []T) {
 		}
 		// 将顶点k加到生成树上
 		mark[k] = true
+	}
+}
+
+//EdgeNode 最小代价生成树：克鲁斯卡尔算法结构
+type EdgeNode struct {
+	U, V int
+	W    T
+}
+
+//Kruskal 最小代价生成树：克鲁斯卡尔算法
+// 优先权队列pq中保存无向图边的集合，n是无向图的顶点个数
+func Kruskal(pq *tree.PQueue, n int) {
+	var (
+		s       = new(tree.UFset)
+		x       EdgeNode
+		u, v, k int
+	)
+	k = 0
+	//建立并查集
+	s.CreateUFset(n)
+	//求最小代价生成树的n-1条边
+	for k < n-1 && pq.IsEmpty() == false {
+		//从优先权队列pq中取出最小代价的边x=(u,v,w)
+		x = EdgeNode(pq.Serve())
+		//分别查找边的x.u和x.v所在的子集
+		u = s.Find2(x.U)
+		v = s.Find2(x.V)
+		//如果边的两个端点不在同一个子集
+		if u != v {
+			//合并两个子集u和v
+			s.Union2(u, v)
+			k++
+			//输出边x
+			fmt.Printf("%d, %d, %d", x.U, x.V, x.W)
+		}
+	}
+	// 不足n-1条边，原图不是连通图
+	if k < n-2 {
+		fmt.Println("The graph is not connected!")
 	}
 }

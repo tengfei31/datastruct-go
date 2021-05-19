@@ -3,7 +3,7 @@ package tree
 //并查集与等价关系
 
 type UFset struct {
-	Parent [MaxSize]int
+	Parent []int
 	Size   int
 }
 
@@ -11,6 +11,7 @@ type UFset struct {
 func (ufset *UFset) CreateUFset(n int) {
 	var i int
 	ufset.Size = n
+	ufset.Parent = make([]int, ufset.Size)
 	for i = 0; i < ufset.Size; i++ {
 		ufset.Parent[i] = -1
 	}
@@ -44,7 +45,7 @@ func (ufset *UFset) Union(x int, y int) {
 
 //Union2 改进的union方法
 func (ufset *UFset) Union2(x int, y int) {
-	var temp int = ufset.Parent[x] + ufset.Parent[y]
+	var temp = ufset.Parent[x] + ufset.Parent[y]
 	if ufset.Parent[x] > ufset.Parent[y] {
 		ufset.Parent[x] = y
 		ufset.Parent[y] = temp

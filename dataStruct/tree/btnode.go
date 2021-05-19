@@ -1,12 +1,13 @@
 package tree
 
 import (
+	"datastruct-go/dataStruct/graph"
 	"fmt"
 	"math"
 )
 
 //T 节点元素值
-type T int
+type T graph.EdgeNode
 
 // BTNode 节点
 //	LTag RTag 链接上下级节点
