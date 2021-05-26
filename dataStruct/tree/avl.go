@@ -107,7 +107,7 @@ func AVLIst(p **AVLNode, x T, unbalanced *bool) bool {
 	if *p == nil {
 		*unbalanced = true
 		*p = (*p).NewNode2(x)
-	} else if x < (*p).Element {
+	} else if x.GetWeight() < (*p).Element.GetWeight() {
 		result = AVLIst(&(*p).LChild, x, unbalanced)
 		if *unbalanced {
 			switch (*p).Bf {

@@ -112,9 +112,9 @@ func btSearch(node *BTNode, k KeyType) *T {
 	if node == nil {
 		return nil
 	}
-	if KeyType(node.Element) == k {
+	if KeyType(node.Element.GetWeight()) == k {
 		return &node.Element
-	} else if KeyType(node.Element) < k {
+	} else if KeyType(node.Element.GetWeight()) < k {
 		return btSearch(node.LChild, k)
 	} else {
 		return btSearch(node.RChild, k)
@@ -138,10 +138,10 @@ func BtSearch2(tree Btree, k KeyType, x *T) bool {
 		return false
 	}
 	for node != nil {
-		if KeyType(node.Element) == k {
+		if KeyType(node.Element.GetWeight()) == k {
 			*x = node.Element
 			return true
-		} else if KeyType(node.Element) < k {
+		} else if KeyType(node.Element.GetWeight()) < k {
 			node = node.LChild
 		} else {
 			node = node.RChild
@@ -160,7 +160,7 @@ func BtInsert(tree *Btree, x T) bool {
 		if p.Element == k {
 			log.Printf("Duplicate")
 			return false
-		} else if p.Element > k {
+		} else if p.Element.GetWeight() > k.GetWeight() {
 			p = p.LChild
 		} else {
 			p = p.RChild
@@ -168,7 +168,7 @@ func BtInsert(tree *Btree, x T) bool {
 	}
 	var r = NewNode2(x)
 	if tree.Root != nil {
-		if k < q.Element {
+		if k.GetWeight() < q.Element.GetWeight() {
 			q.LChild = r
 		} else {
 			q.RChild = r
@@ -183,9 +183,9 @@ func BtInsert(tree *Btree, x T) bool {
 func BtRemove(tree *Btree, k KeyType, x *T) bool {
 	var c, r, s, p, q *BTNode
 	p = tree.Root
-	for p != nil && KeyType(p.Element) != k {
+	for p != nil && KeyType(p.Element.GetWeight()) != k {
 		q = p
-		if k < KeyType(p.Element) {
+		if k < KeyType(p.Element.GetWeight()) {
 			p = p.LChild
 		} else {
 			p = p.RChild

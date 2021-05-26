@@ -16,17 +16,19 @@ type MinHeap struct {
 //Point 最高优先权队列值
 type Point struct {
 	Weight
+	//其实可以不用这个参数的，只要实现weight接口就可以了，现在我只是为了方便
+	W int
 	Val int
 }
 
 //GetWeight 获取权重
 func (p Point) GetWeight() int {
-	return p.Val
+	return p.W
 }
 
 //SetWeight 设置权重
 func (p Point) SetWeight(w int) {
-	p.Val = w
+	p.W = w
 }
 
 //AdjustDown 最小堆向下调整

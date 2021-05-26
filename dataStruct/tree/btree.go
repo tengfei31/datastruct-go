@@ -153,7 +153,9 @@ func CreateHFMTree(w []T, n int) Btree {
 	}
 	for k = n - 1; k > 0; k-- {
 		Fmin(ht, &k1, &k2, k+1)
-		ht[k1].MakeBT(ht[k1].Root.Element+ht[k2].Root.Element, &ht[k1], &ht[k2])
+		x := T{}
+		x.SetWeight(ht[k1].Root.Element.GetWeight()+ht[k2].Root.Element.GetWeight())
+		ht[k1].MakeBT(x, &ht[k1], &ht[k2])
 		ht[k2] = ht[k]
 	}
 	return ht[0]
@@ -161,13 +163,13 @@ func CreateHFMTree(w []T, n int) Btree {
 
 //Fmin 返回k棵二叉树的最小和次最小的二叉树在数组ht中的下标
 func Fmin(ht [MaxSize]Btree, k1 *int, k2 *int, k int) {
-	var min1 T = ht[0].Root.Element
+	var min1 = ht[0].Root.Element.GetWeight()
 	*k1 = 0
-	var min2 T = ht[1].Root.Element
+	var min2 = ht[1].Root.Element.GetWeight()
 	*k2 = 1
 	var i int
 	for i = 2; i < k; i++ {
-		var tmpElement T = ht[i].Root.Element
+		var tmpElement = ht[i].Root.Element.GetWeight()
 		if tmpElement < min2 {
 			if tmpElement > min1 {
 				min2 = tmpElement

@@ -135,11 +135,11 @@ func testBtree() {
 	x.CreateBT()
 	y.CreateBT()
 	z.CreateBT()
-	y.MakeBT('E', &a, &a)
-	z.MakeBT('F', &a, &a)
-	x.MakeBT('C', &y, &z)
-	y.MakeBT('D', &a, &a)
-	z.MakeBT('B', &y, &x)
+	y.MakeBT(tree.T{W: 'E'}, &a, &a)
+	z.MakeBT(tree.T{W: 'F'}, &a, &a)
+	x.MakeBT(tree.T{W: 'C'}, &y, &z)
+	y.MakeBT(tree.T{W: 'D'}, &a, &a)
+	z.MakeBT(tree.T{W: 'B'}, &y, &x)
 
 	fmt.Println("先序遍历")
 	//z.PreOrder()
@@ -148,9 +148,9 @@ func testBtree() {
 	z.InOrder()
 	//z.IInOrder()
 	//z.BreakBT(&e, &y, &x)
-	fmt.Println("中序遍历二叉线索树")
-	z.BuildThreadBT()
-	z.TInOrder()
+	//fmt.Println("中序遍历二叉线索树")
+	//z.BuildThreadBT()
+	//z.TInOrder()
 	fmt.Println("后序遍历")
 	z.PostOrder()
 
@@ -161,14 +161,14 @@ func testHeap() {
 	var heapQueue *tree.PQueue = new(tree.PQueue)
 
 	heapQueue.CreatePQ(10)
-	heapQueue.Append(71)
-	heapQueue.Append(74)
-	heapQueue.Append(2)
-	heapQueue.Append(72)
-	heapQueue.Append(54)
-	heapQueue.Append(93)
-	heapQueue.Append(52)
-	heapQueue.Append(28)
+	heapQueue.Append(tree.T{W: 71})
+	heapQueue.Append(tree.T{W: 74})
+	heapQueue.Append(tree.T{W: 2})
+	heapQueue.Append(tree.T{W: 72})
+	heapQueue.Append(tree.T{W: 54})
+	heapQueue.Append(tree.T{W: 93})
+	heapQueue.Append(tree.T{W: 52})
+	heapQueue.Append(tree.T{W: 28})
 	fmt.Println(heapQueue)
 	fmt.Println("1:", heapQueue.Serve())
 	fmt.Println("2:", heapQueue.Serve())
@@ -176,8 +176,8 @@ func testHeap() {
 
 //testHFMCode 测试哈夫曼编码
 func testHFMCode() {
-	var w []tree.T = make([]tree.T, 0, 6)
-	w = append(w, 9, 11, 13, 3, 5, 12)
+	var w = make([]tree.T, 0, 6)
+	w = append(w, tree.T{W:9}, tree.T{W:11}, tree.T{W:13}, tree.T{W:3}, tree.T{W:5}, tree.T{W:12})
 	var ht tree.Btree = tree.CreateHFMTree(w, len(w))
 	fmt.Println(ht)
 }
@@ -223,12 +223,12 @@ func testBFSearch() {
 //testBtSearch 测试二叉搜索树
 func testBtSearch() {
 	var bt *tree.Btree = new(tree.Btree)
-	tree.BtInsert(bt, 28)
-	tree.BtInsert(bt, 21)
-	tree.BtInsert(bt, 25)
-	tree.BtInsert(bt, 36)
-	tree.BtInsert(bt, 33)
-	tree.BtInsert(bt, 43)
+	tree.BtInsert(bt, tree.T{W: 28})
+	tree.BtInsert(bt, tree.T{W: 21})
+	tree.BtInsert(bt, tree.T{W: 25})
+	tree.BtInsert(bt, tree.T{W: 36})
+	tree.BtInsert(bt, tree.T{W: 33})
+	tree.BtInsert(bt, tree.T{W: 43})
 	//中序遍历bt
 	bt.InOrder()
 
@@ -248,12 +248,12 @@ func testBtSearch() {
 //testAVLBTree 测试二叉平衡树
 func testAVLBTree() {
 	var bt *tree.AVLBTree = new(tree.AVLBTree)
-	tree.AVLInsert(bt, 45)
-	tree.AVLInsert(bt, 28)
-	tree.AVLInsert(bt, 15)
-	tree.AVLInsert(bt, 12)
-	tree.AVLInsert(bt, 14)
-	tree.AVLInsert(bt, 23)
+	tree.AVLInsert(bt, tree.T{W: 45})
+	tree.AVLInsert(bt, tree.T{W: 28})
+	tree.AVLInsert(bt, tree.T{W: 15})
+	tree.AVLInsert(bt, tree.T{W: 12})
+	tree.AVLInsert(bt, tree.T{W: 14})
+	tree.AVLInsert(bt, tree.T{W: 23})
 	fmt.Printf("%+v\n", bt.Root)
 }
 
