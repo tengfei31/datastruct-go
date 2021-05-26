@@ -13,6 +13,22 @@ type MinHeap struct {
 	Elements []T
 }
 
+//Point 最高优先权队列值
+type Point struct {
+	Weight
+	Val int
+}
+
+//GetWeight 获取权重
+func (p Point) GetWeight() int {
+	return p.Val
+}
+
+//SetWeight 设置权重
+func (p Point) SetWeight(w int) {
+	p.Val = w
+}
+
 //AdjustDown 最小堆向下调整
 func AdjustDown(heap []T, r int, n int) {
 	var child = r * 2
@@ -26,10 +42,10 @@ func AdjustDown(heap []T, r int, n int) {
 		//	break
 		//}
 		// T = graph.EdgeNode
-		if child < n && heap[child].W > heap[child+1].W {
+		if child < n && heap[child].GetWeight() > heap[child+1].GetWeight() {
 			child++
 		}
-		if temp.W < heap[child].W {
+		if temp.GetWeight() < heap[child].GetWeight() {
 			break
 		}
 		heap[child/2] = heap[child]
@@ -48,7 +64,7 @@ func AdjustUp(heap []T, n int) {
 	//	i /= 2
 	//}
 	// T = graph.EdgeNode
-	for i != 1 && temp.W < heap[i/2].W {
+	for i != 1 && temp.GetWeight() < heap[i/2].GetWeight() {
 		heap[i] = heap[i/2]
 		i /= 2
 	}
