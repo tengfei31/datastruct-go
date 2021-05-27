@@ -250,7 +250,3 @@ func Kruskal(pq *tree.PQueue, n int) {
 		fmt.Println("The graph is not connected!")
 	}
 }
-
-//最短路径：迪杰斯特拉算法
-
-//最短路径：弗洛伊德算法

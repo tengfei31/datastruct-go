@@ -65,3 +65,61 @@ func (*MatriGraph) Exist(g *MatriGraph, u int, v int) bool {
 
 // 	}
 // }
+
+//Dijkstra 最短路径：迪杰斯特拉算法
+func Dijkstra(g MatriGraph, v int, d []T, path []int) {
+	var (
+		i, u, w int
+		n       = g.Vertices
+		s       = make([]bool, n)
+	)
+	if v < 0 || v > n-1 {
+		log.Println("BadInput")
+		return
+	}
+	//初始化操作
+	for i = 0; i < n; i++ {
+		s[i] = false
+		d[i] = g.A[v][i]
+		if i != v && d[i] < g.NoEdge {
+			path[i] = v
+		} else {
+			path[i] = -1
+		}
+	}
+	//将原点v加入集合s
+	s[v] = true
+	d[v] = 0
+	//产生n-1条最短路径
+	for i = 1; i <= n-1; i++ {
+		//求当前路径最短者u
+		u = Choose(d, n, s, g.NoEdge)
+		//将顶点u加入集合
+		s[u] = true
+		//修改d和path的值
+		for w = 0; w < n; w++ {
+		}
+		if !s[w] && d[u]+g.A[u][w] < d[w] {
+			d[w] = d[u] + g.A[u][w]
+			path[w] = u
+		}
+	}
+}
+
+//最短路径：弗洛伊德算法
+
+//Choose 取出d中最小值的下标
+func Choose(d []T, n int, s []bool, maxNumber T) int {
+	var (
+		min    T   = maxNumber
+		minpos int = -1
+		i      int
+	)
+	for i = 0; i < n; i++ {
+		if d[i] <= min && !s[i] {
+			min = d[i]
+			minpos = i
+		}
+	}
+	return minpos
+}
