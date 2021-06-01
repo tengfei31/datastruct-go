@@ -106,7 +106,42 @@ func Dijkstra(g MatriGraph, v int, d []T, path []int) {
 	}
 }
 
-//最短路径：弗洛伊德算法
+//Floyd 最短路径：弗洛伊德算法
+func Floyd(g MatriGraph, d [][]T, path [][]int) {
+	var (
+		i, j, k int
+		n       = g.Vertices
+	)
+	if d == nil {
+		d = make([][]T, MaxVertices)
+	}
+	if path == nil {
+		path = make([][]int, MaxVertices)
+	}
+	//将d和path初始化
+	for i = 0; i < n; i++ {
+		for j = 0; j < n; j++ {
+			d[i][j] = g.A[i][j]
+			if i != j && g.A[i][j] < g.NoEdge {
+				path[i][j] = i
+			} else {
+				path[i][j] = -1
+			}
+		}
+	}
+	//for的每一次循环，意味着将一个顶点加入集合
+	for k = 0; k < n; k++ {
+		for i = 0; i < n; i++ {
+			for j = 0; j < n; j++ {
+				if d[i][k]+d[k][j] < d[i][j] {
+					//修改d[i][j]和path[i][j]
+					d[i][j] = d[i][k] + d[k][j]
+					path[i][j] = path[k][j]
+				}
+			}
+		}
+	}
+}
 
 //Choose 取出d中最小值的下标
 func Choose(d []T, n int, s []bool, maxNumber T) int {
