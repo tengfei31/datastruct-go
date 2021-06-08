@@ -1,6 +1,8 @@
-package order
+package innersort
 
 import "log"
+
+//插入排序
 
 //Order 获取排序元素的接口
 type Order interface {
@@ -9,7 +11,7 @@ type Order interface {
 }
 
 type T struct {
-	Order
+	//Order
 	K int
 }
 
@@ -28,6 +30,25 @@ type List struct {
 	Elements      []T
 }
 
+//NewList 创建List
+func NewList(maxList int) *List {
+	return &List{
+		Size:     0,
+		MaxList:  maxList,
+		Elements: make([]T, 0, maxList),
+	}
+}
+
+//AddElement 添加元素
+func (lst *List) AddElement(element T) {
+	var size = len(lst.Elements)
+	if size >= lst.MaxList {
+		panic("长度超出限制")
+	}
+	lst.Elements = append(lst.Elements, element)
+	lst.Size = size + 1
+}
+
 //Node 链表节点
 type Node struct {
 	Element T
@@ -38,6 +59,25 @@ type Node struct {
 type LinkList struct {
 	First *Node
 	Size  int
+}
+
+//NewLinkList 创建linklist
+func NewLinkList() *LinkList {
+	return &LinkList{
+		Size:  0,
+		First: nil,
+	}
+}
+
+//AddElement 往最前面塞element
+func (lst *LinkList) AddElement(element T) {
+	node := new(Node)
+	node.Element = element
+	node.Link = nil
+	tmp := lst.First
+	lst.First = node
+	node.Link = tmp
+	lst.Size += 1
 }
 
 //InsertSortOrder 插入排序：顺序表上的直接插入排序
@@ -70,7 +110,7 @@ func InsertSortLinkList(lst *LinkList) {
 	sorted = lst.First
 	//至少一个节点
 	for sorted.Link != nil {
-		//unsorted 指示带插记录
+		//unsorted 指示待插记录
 		unsorted = sorted.Link
 		//若待插记录小于第一个记录
 		if unsorted.Element.GetKey() < lst.First.Element.GetKey() {
@@ -96,6 +136,40 @@ func InsertSortLinkList(lst *LinkList) {
 				unsorted.Link = p
 				q.Link = unsorted
 			}
+		}
+	}
+}
+
+//insertSortInsSort 插入排序：修改后的直接插入排序
+func insertSortInsSort(lst *List, h int) {
+	var (
+		i, j int
+		x    T
+	)
+	for i = h; i < lst.Size; i += h {
+		x = lst.Elements[i]
+		//位置j的同组前一个位置为j-h
+		for j = i - h; j >= 0 && x.GetKey() < lst.Elements[j].GetKey(); j -= h {
+			lst.Elements[j+h] = lst.Elements[j]
+		}
+		lst.Elements[j+h] = x
+	}
+}
+
+//InsertSortShellSort 插入排序：希尔排序
+func InsertSortShellSort(lst *List) {
+	var (
+		i    int
+		incr = lst.Size
+	)
+	for {
+		//计算增量
+		incr = incr/3 + 1
+		for i = 0; i < incr; i++ {
+			insertSortInsSort(lst, incr)
+		}
+		if incr <= 1 {
+			break
 		}
 	}
 }
