@@ -3,7 +3,7 @@ package innersort
 //合并排序
 
 //Merge 合并函数
-func Merge(lst *List, temp []T, i1, j1, i2, j2 int, k *int) {
+func (lst *List) Merge(temp []T, i1, j1, i2, j2 int, k *int) {
 	var (
 		i = i1
 		j = i2
@@ -36,7 +36,7 @@ func Merge(lst *List, temp []T, i1, j1, i2, j2 int, k *int) {
 }
 
 //MergeSort 合并排序
-func MergeSort(lst *List) {
+func (lst *List) MergeSort() {
 	var temp []T = make([]T, lst.Size)
 	//i1, j1和i2, j2分别是两个子序列的上、下界
 	var i1, j1, i2, j2, i, k int
@@ -56,7 +56,7 @@ func MergeSort(lst *List) {
 				j2 = i2 + size - 1
 			}
 			//合并相邻两个子序列
-			Merge(lst, temp, i1, j1, i2, j2, &k)
+			lst.Merge(temp, i1, j1, i2, j2, &k)
 			//确定下一次合并第一个子序列的下界
 			i1 = j2 + 1
 		}
@@ -66,4 +66,70 @@ func MergeSort(lst *List) {
 		//子序列长度扩大一倍
 		size *= 2
 	}
+}
+
+//Divide 链表分割函数
+func (node *Node) Divide(p *Node) *Node {
+	var pos, mid, q *Node
+	if p == nil {
+		return nil
+	}
+	mid = p
+	pos = mid.Link
+	for pos != nil {
+		pos = pos.Link
+		if pos != nil {
+			mid = mid.Link
+			pos = pos.Link
+		}
+	}
+	q = mid.Link
+	mid.Link = nil
+	return q
+}
+
+//Merge 单链表合并函数
+func (node *Node) Merge(p *Node, q *Node) *Node {
+	//head为哑节点，rear为指针变量
+	var (
+		rear = new(Node)
+		head = Node{}
+	)
+	//rear指向head节点
+	rear = &head
+	//合并两个有序链表
+	for p != nil && q != nil {
+		if p.Element.GetKey() <= q.Element.GetKey() {
+			rear.Link = p
+			rear = p
+			p = p.Link
+		} else {
+			rear.Link = q
+			rear = q
+			q = q.Link
+		}
+	}
+	//将一个链表的剩余部分链至结果链表的尾部
+	if p == nil {
+		rear.Link = q
+	} else {
+		rear.Link = p
+	}
+	//返回结果链表的起始节点地址
+	return head.Link
+}
+
+//RMSort 两路合并排序函数
+func RMSort(sublst **Node) {
+	if *sublst != nil && (*sublst).Link != nil {
+		second := (*sublst).Divide(*sublst)
+		RMSort(sublst)
+		RMSort(&second)
+		*sublst = (*sublst).Merge(*sublst, second)
+	}
+}
+
+//RMergeSort 两路合并排序函数
+func RMergeSort(lst *LinkList) {
+	RMSort(&(lst.First))
 }
