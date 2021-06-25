@@ -80,6 +80,26 @@ func (lst *LinkList) AddElement(element T) {
 	lst.Size += 1
 }
 
+//handleLinkList 处理链表问题，方便打印值
+func (lst LinkList) handleLinkList() []T {
+	var output = make([]T, 0)
+	first := lst.First
+	if first != nil {
+		output = append(output, first.Element)
+		if first.Link != nil {
+			tmpLink := first.Link
+			for {
+				output = append(output, tmpLink.Element)
+				tmpLink = tmpLink.Link
+				if tmpLink == nil {
+					break
+				}
+			}
+		}
+	}
+	return output
+}
+
 //InsertSortOrder 插入排序：顺序表上的直接插入排序
 func InsertSortOrder(lst *List) {
 	var (

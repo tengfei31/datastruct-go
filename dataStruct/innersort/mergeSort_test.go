@@ -11,7 +11,7 @@ func TestMergeSort(t *testing.T) {
 
 func TestLinkListMergeSort(t *testing.T) {
 	var lst = makeLinkList()
-	t.Log("单链表两路合并函数排序前", handleLinkList(*lst))
+	t.Log("单链表两路合并函数排序前", (*lst).handleLinkList())
 	RMergeSort(lst)
-	t.Log("单链表两路合并函数排序后", handleLinkList(*lst))
+	t.Log("单链表两路合并函数排序后", (*lst).handleLinkList())
 }

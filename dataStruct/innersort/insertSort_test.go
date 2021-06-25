@@ -27,9 +27,9 @@ func TestInsertSortOrder(t *testing.T) {
 
 func TestInsertSortLinkList(t *testing.T) {
 	var lst = makeLinkList()
-	t.Log("链表上的直接插入排序前", handleLinkList(*lst))
+	t.Log("链表上的直接插入排序前", (*lst).handleLinkList())
 	InsertSortLinkList(lst)
-	t.Log("链表上的直接插入排序后", handleLinkList(*lst))
+	t.Log("链表上的直接插入排序后", (*lst).handleLinkList())
 }
 
 func TestInsertSortShellSort(t *testing.T) {
@@ -37,24 +37,4 @@ func TestInsertSortShellSort(t *testing.T) {
 	t.Log("希尔排序前", lst.Elements)
 	InsertSortShellSort(lst)
 	t.Log("希尔排序后", lst.Elements)
-}
-
-//handleLinkList 处理链表问题，方便打印值
-func handleLinkList(lst LinkList) []T {
-	var output = make([]T, 0)
-	first := lst.First
-	if first != nil {
-		output = append(output, first.Element)
-		if first.Link != nil {
-			tmpLink := first.Link
-			for {
-				output = append(output, tmpLink.Element)
-				tmpLink = tmpLink.Link
-				if tmpLink == nil {
-					break
-				}
-			}
-		}
-	}
-	return output
 }
