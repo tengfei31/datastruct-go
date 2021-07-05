@@ -7,11 +7,22 @@ delDebug=-ldflags "-s -w"
 
 ifeq ($(LANG),)
 	execFile=$(project).exe
-	cleanExec=del $(goPath)\bin\$(execFile)
+	cleanCommand=del
+	ifeq ($(goPath)\bin\$(execFile), $(wildcard $(goPath)\bin\$(execFile)))
+		delInstall=$(goPath)\bin\$(execFile)
+	else
+		delInstall=
+	endif
+	ifeq ($(execFile), $(wildcard $(execFile)))
+		delBuild=$(execFile)
+	else
+		delBuild=
+	endif
+	cleanExec=$(cleanCommand) $(delBuild) $(delInstall)
 	compress=upx.exe
 else
 	execFile=$(project)
-	cleanExec=rm -rf $(goPath)/bin/$(execFile)
+	cleanExec=rm -rf $(goPath)/bin/$(execFile) $(execFile)
 	#压缩二进制
     compress=upx
 endif
@@ -31,4 +42,4 @@ install:
 .PHONY: clean
 
 clean:
-	$(cleanExec) $(execFile)
+	$(cleanExec)

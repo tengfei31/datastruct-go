@@ -21,7 +21,7 @@ func (t *T) SetKey(k int) {
 }
 
 //GetKey 获取要比较的元素
-func (t *T) GetKey() int {
+func (t T) GetKey() int {
 	return t.K
 }
 

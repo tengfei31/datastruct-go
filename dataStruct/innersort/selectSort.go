@@ -15,3 +15,6 @@ func (lst *List) SelectSort() {
 		lst.Elements[i], lst.Elements[small] = lst.Elements[small], lst.Elements[i]
 	}
 }
+
+//SelectSort 链表简单选择排序
+func (lst *LinkList) SelectSort() {}
