@@ -1,14 +1,13 @@
 package tree
 
 import (
-	"datastruct-go/dataStruct/graph"
 	"fmt"
 	"math"
 )
 
 //T 节点元素值
 //TODO:这里需要重新设计，因为在tree里面引用graph，在graph里引用了tree，编译会报错，这里只是示例意思
-type T graph.EdgeNode
+type T Point
 
 // BTNode 节点
 //	LTag RTag 链接上下级节点
@@ -36,7 +35,7 @@ func NewNode2(x T) *BTNode {
 
 //Visit 打印每个节点元素
 func Visit(p *BTNode) {
-	fmt.Printf("%d\n", p.Element.W)
+	fmt.Printf("%d\n", p.Element.GetWeight())
 }
 
 //PreOrd 前序遍历
