@@ -1,6 +1,7 @@
 package tree
 
 import (
+	"datastruct-go/dataStruct/base_interface"
 	"log"
 )
 
@@ -15,9 +16,9 @@ type MinHeap struct {
 
 //Point 最高优先权队列值
 type Point struct {
-	Weight
+	base_interface.Weight
 	//其实可以不用这个参数的，只要实现weight接口就可以了，现在我只是为了方便
-	W int
+	W   int
 	Val int
 }
 

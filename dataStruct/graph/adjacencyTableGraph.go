@@ -1,6 +1,7 @@
 package graph
 
 import (
+	"datastruct-go/dataStruct/base_interface"
 	"datastruct-go/dataStruct/stack"
 	"datastruct-go/dataStruct/tree"
 	"fmt"
@@ -203,7 +204,7 @@ func (g AdjacencyTableGraph) Prim(k int, nearest []int, lowcost []T) {
 
 //EdgeNode 最小代价生成树：克鲁斯卡尔算法结构
 type EdgeNode struct {
-	tree.Weight
+	base_interface.Weight
 	U, V int
 	W    T
 }

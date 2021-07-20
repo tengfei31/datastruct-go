@@ -6,14 +6,6 @@ import (
 	"math"
 )
 
-//Weight 设置权重、获取权重，各种自定义类型调用优先权队列的时候，需要实现这两个方法
-type Weight interface {
-	//GetWeight 获取权重
-	GetWeight() int
-	//SetWeight 设置权重
-	SetWeight(w int)
-}
-
 //T 节点元素值
 //TODO:这里需要重新设计，因为在tree里面引用graph，在graph里引用了tree，编译会报错，这里只是示例意思
 type T graph.EdgeNode

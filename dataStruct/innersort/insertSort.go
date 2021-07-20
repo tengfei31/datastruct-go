@@ -1,17 +1,14 @@
 package innersort
 
-import "log"
+import (
+	"datastruct-go/dataStruct/base_interface"
+	"log"
+)
 
 //插入排序
 
-//Order 获取排序元素的接口
-type Order interface {
-	SetKey(int)
-	GetKey() int
-}
-
 type T struct {
-	//Order
+	base_interface.Order
 	K int
 }
 

@@ -1,7 +1,9 @@
 package innersort
 
 import (
+	"context"
 	"testing"
+	"time"
 	"unsafe"
 )
 
@@ -26,4 +28,27 @@ func IsLittleEndian() bool {
 
 func TestEndian(t *testing.T) {
 	t.Log(IsLittleEndian())
+}
+
+func TestContext(t *testing.T) {
+	var start = time.Now()
+	ctx := context.Background()
+	ctx, cancel := context.WithTimeout(ctx, time.Second*1)
+	defer cancel()
+
+	for i := 0; i < 5; i++ {
+		go func(i int, ctx context.Context) {
+			//time.Sleep(time.Second * 1)
+			select {
+			case <-ctx.Done():
+				t.Log("child exit", i)
+			}
+		}(i, ctx)
+	}
+	select {
+	case <-ctx.Done():
+		t.Log("main取消了")
+	}
+	var diff = time.Since(start)
+	t.Log("执行时间：", diff)
 }
