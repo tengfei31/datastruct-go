@@ -14,6 +14,15 @@ type MinHeap struct {
 	Elements []T
 }
 
+// NewMinHeap 创建最小堆对象
+func NewMinHeap(maxSize int) *MinHeap {
+	return &MinHeap{
+		Size:     maxSize,
+		MaxHeap:  maxSize,
+		Elements: make([]T, maxSize),
+	}
+}
+
 //Point 最高优先权队列值
 type Point struct {
 	base_interface.Weight
@@ -83,6 +92,17 @@ func CreateHeap(hp *MinHeap) {
 	}
 }
 
+// MakeMinHeap 制作最小堆
+func MakeMinHeap() *MinHeap {
+	var heap = NewMinHeap(20)
+	var tmpSetElement = []int{503, 87, 512, 61, 908, 170, 275, 154, 509, 426, 523, 289, 456, 329, 77, 135, 500, 266}
+	for val := range tmpSetElement {
+		heap.Elements = append(heap.Elements, T{W: val})
+	}
+	CreateHeap(heap)
+	return heap
+}
+
 //PQueue 优先权队列
 type PQueue MinHeap
 
@@ -119,7 +139,7 @@ func (pq *PQueue) Append(x T) {
 }
 
 // Serve 返回最高优先权的元素值，并从队列中删除该元素
-func (pq *PQueue) Serve() T {
+func (pq *PQueue) Serve() base_interface.Weight {
 	if pq.IsEmpty() == true {
 		log.Fatalf("Underflow")
 	}

@@ -215,7 +215,7 @@ func (node EdgeNode) GetWeight() int {
 }
 
 //SetWeight 设置权重
-func (node EdgeNode) SetWeight(w int) {
+func (node *EdgeNode) SetWeight(w int) {
 	node.W = T(w)
 }
 
