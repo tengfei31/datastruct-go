@@ -1,6 +1,7 @@
 package tree
 
 import (
+	"datastruct-go/dataStruct/base_interface"
 	"log"
 )
 
@@ -13,6 +14,15 @@ type MinHeap struct {
 	Elements []T
 }
 
+//NewMinHeap 创建最小堆对象
+func NewMinHeap(maxHeap int) *MinHeap {
+	return &MinHeap{
+		Size:     0,
+		MaxHeap:  maxHeap,
+		Elements: make([]T, maxHeap),
+	}
+}
+
 //HeapSort 最小堆排序
 func (hp *MinHeap) HeapSort() {
 	var i int
@@ -23,9 +33,8 @@ func (hp *MinHeap) HeapSort() {
 	//选择排序
 	for i = hp.Size; i > 1; i-- {
 		hp.Elements[1], hp.Elements[i] = hp.Elements[i], hp.Elements[1]
-		AdjustDown(hp.Elements, 1, i - 1)
+		AdjustDown(hp.Elements, 1, i-1)
 	}
-
 }
 
 //AdjustDown 最小堆向下调整
@@ -73,29 +82,40 @@ func AdjustUp(heap []T, n int) {
 //makeMinHeap 创建最小堆
 func makeMinHeap() *MinHeap {
 	var hp = new(MinHeap)
-	var temp = T{}; temp.SetWeight(-1)
+	var temp = T{}
+	temp.SetWeight(-1)
 	hp.Elements = append(hp.Elements, temp)
-	temp = T{}; temp.SetWeight(20)
+	temp = T{}
+	temp.SetWeight(20)
 	hp.Elements = append(hp.Elements, temp)
-	temp = T{}; temp.SetWeight(10)
+	temp = T{}
+	temp.SetWeight(10)
 	hp.Elements = append(hp.Elements, temp)
-	temp = T{}; temp.SetWeight(31)
+	temp = T{}
+	temp.SetWeight(31)
 	hp.Elements = append(hp.Elements, temp)
-	temp = T{}; temp.SetWeight(34)
+	temp = T{}
+	temp.SetWeight(34)
 	hp.Elements = append(hp.Elements, temp)
-	temp = T{}; temp.SetWeight(1)
+	temp = T{}
+	temp.SetWeight(1)
 	hp.Elements = append(hp.Elements, temp)
-	temp = T{}; temp.SetWeight(4)
+	temp = T{}
+	temp.SetWeight(4)
 	hp.Elements = append(hp.Elements, temp)
-	temp = T{}; temp.SetWeight(0)
+	temp = T{}
+	temp.SetWeight(0)
 	hp.Elements = append(hp.Elements, temp)
-	temp = T{}; temp.SetWeight(15)
+	temp = T{}
+	temp.SetWeight(15)
 	hp.Elements = append(hp.Elements, temp)
-	temp = T{}; temp.SetWeight(100)
+	temp = T{}
+	temp.SetWeight(100)
 	hp.Elements = append(hp.Elements, temp)
-	temp = T{}; temp.SetWeight(89)
+	temp = T{}
+	temp.SetWeight(89)
 	hp.Elements = append(hp.Elements, temp)
-	hp.Size = len(hp.Elements)-1
+	hp.Size = len(hp.Elements) - 1
 	hp.CreateHeap()
 	return hp
 }
@@ -111,9 +131,9 @@ func (hp *MinHeap) CreateHeap() {
 
 //Point 最高优先权队列值
 type Point struct {
-	Weight
+	base_interface.Weight
 	//其实可以不用这个参数的，只要实现weight接口就可以了，现在我只是为了方便
-	W int
+	W   int
 	Val int
 }
 
@@ -125,6 +145,17 @@ func (p Point) GetWeight() int {
 //SetWeight 设置权重
 func (p *Point) SetWeight(w int) {
 	p.W = w
+}
+
+// MakeMinHeap 制作最小堆
+func MakeMinHeap() *MinHeap {
+	var heap = NewMinHeap(20)
+	var tmpSetElement = []int{503, 87, 512, 61, 908, 170, 275, 154, 509, 426, 523, 289, 456, 329, 77, 135, 500, 266}
+	for val := range tmpSetElement {
+		heap.Elements = append(heap.Elements, T{W: val})
+	}
+	heap.CreateHeap()
+	return heap
 }
 
 //PQueue 优先权队列
@@ -163,7 +194,7 @@ func (pq *PQueue) Append(x T) {
 }
 
 // Serve 返回最高优先权的元素值，并从队列中删除该元素
-func (pq *PQueue) Serve() T {
+func (pq *PQueue) Serve() base_interface.Weight {
 	if pq.IsEmpty() == true {
 		log.Fatalf("Underflow")
 	}

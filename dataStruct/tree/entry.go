@@ -17,22 +17,6 @@ type Entry struct {
 	Data DataType
 }
 
-//Set 集合
-type Set interface {
-	//CreateList 创建空集合
-	CreateList(maxSize int)
-	//IsEmpty 集合是否为空
-	IsEmpty() bool
-	//IsFull 集合是否满了
-	IsFull() bool
-	//Search 在集合中搜索关键字值为k的元素，并将该元素放入x中，并返回true
-	Search(k KeyType, x *T) bool
-	//Insert 在集合中搜索关键字值为k的元素，如果不存在就插入到集合中，并返回true,否则返回false
-	Insert(x T) bool
-	//Remove 在集合中搜索关键字值为k的元素，如果存在，就将该元素赋值给*x, 并从集合中删除该元素，返回true，否则返回false
-	Remove(k KeyType, x *T) bool
-}
-
 //SeqSearch 顺序搜索无序表
 func SeqSearch(lst listarr.List, k KeyType, x *listarr.T) bool {
 	if lst.Size > 0 {
@@ -121,7 +105,7 @@ func btSearch(node *BTNode, k KeyType) *T {
 	}
 }
 
-//BSearchTree 二叉搜索树(递归算法)
+//BtSearch 二叉搜索树(递归算法)
 func BtSearch(tree Btree, k KeyType, x *T) bool {
 	var res = btSearch(tree.Root, k)
 	if res == nil {
@@ -131,7 +115,7 @@ func BtSearch(tree Btree, k KeyType, x *T) bool {
 	return true
 }
 
-//BSearchTree2 二叉搜索树（迭代算法）
+//BtSearch2 二叉搜索树（迭代算法）
 func BtSearch2(tree Btree, k KeyType, x *T) bool {
 	var node = tree.Root
 	if node == nil {
