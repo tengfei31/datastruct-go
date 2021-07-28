@@ -1,7 +1,6 @@
 package tree
 
 import (
-	"datastruct-go/dataStruct/graph"
 	"fmt"
 	"math"
 )
@@ -16,7 +15,18 @@ type Weight interface {
 
 //T 节点元素值
 //TODO:这里需要重新设计，因为在tree里面引用graph，在graph里引用了tree，编译会报错，这里只是示例意思
-type T graph.EdgeNode
+type T struct {
+	W int
+	//Val graph.EdgeNode
+}
+
+func (t T) GetWeight() int {
+	return t.W
+}
+
+func (t *T) SetWeight(w int) {
+	t.W = w
+}
 
 // BTNode 节点
 //	LTag RTag 链接上下级节点

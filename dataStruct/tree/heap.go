@@ -13,22 +13,19 @@ type MinHeap struct {
 	Elements []T
 }
 
-//Point 最高优先权队列值
-type Point struct {
-	Weight
-	//其实可以不用这个参数的，只要实现weight接口就可以了，现在我只是为了方便
-	W int
-	Val int
-}
+//HeapSort 最小堆排序
+func (hp *MinHeap) HeapSort() {
+	var i int
+	//建堆
+	for i = hp.Size / 2; i > 0; i-- {
+		AdjustDown(hp.Elements, i, hp.Size)
+	}
+	//选择排序
+	for i = hp.Size; i > 1; i-- {
+		hp.Elements[1], hp.Elements[i] = hp.Elements[i], hp.Elements[1]
+		AdjustDown(hp.Elements, 1, i - 1)
+	}
 
-//GetWeight 获取权重
-func (p Point) GetWeight() int {
-	return p.W
-}
-
-//SetWeight 设置权重
-func (p Point) SetWeight(w int) {
-	p.W = w
 }
 
 //AdjustDown 最小堆向下调整
@@ -73,13 +70,61 @@ func AdjustUp(heap []T, n int) {
 	heap[i] = temp
 }
 
+//makeMinHeap 创建最小堆
+func makeMinHeap() *MinHeap {
+	var hp = new(MinHeap)
+	var temp = T{}; temp.SetWeight(-1)
+	hp.Elements = append(hp.Elements, temp)
+	temp = T{}; temp.SetWeight(20)
+	hp.Elements = append(hp.Elements, temp)
+	temp = T{}; temp.SetWeight(10)
+	hp.Elements = append(hp.Elements, temp)
+	temp = T{}; temp.SetWeight(31)
+	hp.Elements = append(hp.Elements, temp)
+	temp = T{}; temp.SetWeight(34)
+	hp.Elements = append(hp.Elements, temp)
+	temp = T{}; temp.SetWeight(1)
+	hp.Elements = append(hp.Elements, temp)
+	temp = T{}; temp.SetWeight(4)
+	hp.Elements = append(hp.Elements, temp)
+	temp = T{}; temp.SetWeight(0)
+	hp.Elements = append(hp.Elements, temp)
+	temp = T{}; temp.SetWeight(15)
+	hp.Elements = append(hp.Elements, temp)
+	temp = T{}; temp.SetWeight(100)
+	hp.Elements = append(hp.Elements, temp)
+	temp = T{}; temp.SetWeight(89)
+	hp.Elements = append(hp.Elements, temp)
+	hp.Size = len(hp.Elements)-1
+	hp.CreateHeap()
+	return hp
+}
+
 //CreateHeap 创建最小堆
-func CreateHeap(hp *MinHeap) {
+func (hp *MinHeap) CreateHeap() {
 	var i int
 	var n = hp.Size
 	for i = n / 2; i > 0; i-- {
 		AdjustDown(hp.Elements, i, n)
 	}
+}
+
+//Point 最高优先权队列值
+type Point struct {
+	Weight
+	//其实可以不用这个参数的，只要实现weight接口就可以了，现在我只是为了方便
+	W int
+	Val int
+}
+
+//GetWeight 获取权重
+func (p Point) GetWeight() int {
+	return p.W
+}
+
+//SetWeight 设置权重
+func (p *Point) SetWeight(w int) {
+	p.W = w
 }
 
 //PQueue 优先权队列

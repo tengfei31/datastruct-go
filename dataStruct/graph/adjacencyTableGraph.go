@@ -214,7 +214,7 @@ func (node EdgeNode) GetWeight() int {
 }
 
 //SetWeight 设置权重
-func (node EdgeNode) SetWeight(w int) {
+func (node *EdgeNode) SetWeight(w int) {
 	node.W = T(w)
 }
 
@@ -232,7 +232,7 @@ func Kruskal(pq *tree.PQueue, n int) {
 	//求最小代价生成树的n-1条边
 	for k < n-1 && pq.IsEmpty() == false {
 		//从优先权队列pq中取出最小代价的边x=(u,v,w)
-		x = EdgeNode(pq.Serve())
+		x = pq.Serve().EdgeNode
 		//分别查找边的x.u和x.v所在的子集
 		u = s.Find2(x.U)
 		v = s.Find2(x.V)
