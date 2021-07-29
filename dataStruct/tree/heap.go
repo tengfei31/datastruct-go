@@ -79,47 +79,6 @@ func AdjustUp(heap []T, n int) {
 	heap[i] = temp
 }
 
-//makeMinHeap 创建最小堆
-func makeMinHeap() *MinHeap {
-	var hp = new(MinHeap)
-	var temp = T{}
-	temp.SetWeight(-1)
-	hp.Elements = append(hp.Elements, temp)
-	temp = T{}
-	temp.SetWeight(20)
-	hp.Elements = append(hp.Elements, temp)
-	temp = T{}
-	temp.SetWeight(10)
-	hp.Elements = append(hp.Elements, temp)
-	temp = T{}
-	temp.SetWeight(31)
-	hp.Elements = append(hp.Elements, temp)
-	temp = T{}
-	temp.SetWeight(34)
-	hp.Elements = append(hp.Elements, temp)
-	temp = T{}
-	temp.SetWeight(1)
-	hp.Elements = append(hp.Elements, temp)
-	temp = T{}
-	temp.SetWeight(4)
-	hp.Elements = append(hp.Elements, temp)
-	temp = T{}
-	temp.SetWeight(0)
-	hp.Elements = append(hp.Elements, temp)
-	temp = T{}
-	temp.SetWeight(15)
-	hp.Elements = append(hp.Elements, temp)
-	temp = T{}
-	temp.SetWeight(100)
-	hp.Elements = append(hp.Elements, temp)
-	temp = T{}
-	temp.SetWeight(89)
-	hp.Elements = append(hp.Elements, temp)
-	hp.Size = len(hp.Elements) - 1
-	hp.CreateHeap()
-	return hp
-}
-
 //CreateHeap 创建最小堆
 func (hp *MinHeap) CreateHeap() {
 	var i int
@@ -154,6 +113,7 @@ func MakeMinHeap() *MinHeap {
 	for val := range tmpSetElement {
 		heap.Elements = append(heap.Elements, T{W: val})
 	}
+	heap.Size = len(heap.Elements) - 1
 	heap.CreateHeap()
 	return heap
 }
@@ -184,7 +144,7 @@ func (pq *PQueue) IsFull() bool {
 
 //Append 将元素加入队列
 func (pq *PQueue) Append(x T) {
-	if pq.IsFull() == true {
+	if pq.IsFull() {
 		log.Fatalf("Overflow")
 	}
 	pq.Size++
@@ -195,11 +155,10 @@ func (pq *PQueue) Append(x T) {
 
 // Serve 返回最高优先权的元素值，并从队列中删除该元素
 func (pq *PQueue) Serve() base_interface.Weight {
-	if pq.IsEmpty() == true {
+	if pq.IsEmpty() {
 		log.Fatalf("Underflow")
 	}
-	var x T
-	x = pq.Elements[1]
+	var x = pq.Elements[1]
 	//调整堆
 	pq.Elements[1] = pq.Elements[pq.Size]
 	pq.Size--
