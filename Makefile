@@ -5,26 +5,32 @@ debugParam=-gcflags "-N -l"
 #压缩二进制，-s 去掉符号信息， -w 去掉DWARF调试信息
 delDebug=-ldflags "-s -w"
 
+#linux
+execFile=$(project)
+cleanExec=rm -rf $(goPath)/bin/$(execFile) $(execFile)
+#压缩二进制
+compress=upx
+
 ifeq ($(LANG),)
-	execFile=$(project).exe
-	cleanCommand=del
-	ifeq ($(goPath)\bin\$(execFile), $(wildcard $(goPath)\bin\$(execFile)))
-		delInstall=$(goPath)\bin\$(execFile)
+	ifeq ($(shell uname), Darwin)
+		#macOS
 	else
-		delInstall=
+		#windows
+		execFile=$(project).exe
+		cleanCommand=del
+		ifeq ($(goPath)\bin\$(execFile), $(wildcard $(goPath)\bin\$(execFile)))
+			delInstall=$(goPath)\bin\$(execFile)
+		else
+			delInstall=
+		endif
+		ifeq ($(execFile), $(wildcard $(execFile)))
+			delBuild=$(execFile)
+		else
+			delBuild=
+		endif
+		cleanExec=$(cleanCommand) $(delBuild) $(delInstall)
+		compress=upx.exe
 	endif
-	ifeq ($(execFile), $(wildcard $(execFile)))
-		delBuild=$(execFile)
-	else
-		delBuild=
-	endif
-	cleanExec=$(cleanCommand) $(delBuild) $(delInstall)
-	compress=upx.exe
-else
-	execFile=$(project)
-	cleanExec=rm -rf $(goPath)/bin/$(execFile) $(execFile)
-	#压缩二进制
-    compress=upx
 endif
 install=$(goPath)/bin/$(execFile)
 
