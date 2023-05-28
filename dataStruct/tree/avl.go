@@ -8,23 +8,33 @@ import (
 
 type K int
 
+type Elements[T int] struct {
+	W   T
+	Val T
+}
+
+func (e Elements[T]) GetWeight() T {
+	return e.W
+}
+
+
 //AVLNode AVL二叉平衡树结点
-type AVLNode struct {
-	Element        T
-	Bf             int
-	LChild, RChild *AVLNode
+type AVLNode[T int] struct {
+	Element        Elements[T]
+	Bf             T
+	LChild, RChild *AVLNode[T]
 }
 
 //AVLBTree 二叉平衡树
-type AVLBTree struct {
-	Root *AVLNode
+type AVLBTree[T int] struct {
+	Root *AVLNode[T]
 }
 
 //NewNode2 创建结点
-func (avl *AVLNode) NewNode2(x T) *AVLNode {
-	avl = &AVLNode{
+func (avl *AVLNode[T]) NewNode2(x Elements[T]) *AVLNode[T] {
+	avl = &AVLNode[T]{
 		Element: x,
-		Bf:      0,
+		Bf:      T(0),
 		LChild:  nil,
 		RChild:  nil,
 	}
@@ -32,8 +42,8 @@ func (avl *AVLNode) NewNode2(x T) *AVLNode {
 }
 
 //LeftRotation 二叉平衡树左旋转函数
-func LeftRotation(s **AVLNode, unbalanced *bool) {
-	var u, r *AVLNode
+func LeftRotation[T int](s **AVLNode[T], unbalanced *bool) {
+	var u, r *AVLNode[T]
 	r = (*s).LChild
 	if r.Bf == 1 {
 		(*s).LChild = r.RChild
@@ -67,8 +77,8 @@ func LeftRotation(s **AVLNode, unbalanced *bool) {
 }
 
 //RightRotation 二叉平衡树右旋转函数
-func RightRotation(s **AVLNode, unbalanced *bool) {
-	var u, r *AVLNode
+func RightRotation[T int](s **AVLNode[T], unbalanced *bool) {
+	var u, r *AVLNode[T]
 	r = (*s).RChild
 	if r.Bf == -1 {
 		(*s).RChild = r.LChild
@@ -102,7 +112,7 @@ func RightRotation(s **AVLNode, unbalanced *bool) {
 }
 
 //AVLIst 二叉平衡树的插入
-func AVLIst(p **AVLNode, x T, unbalanced *bool) bool {
+func AVLIst[T int](p **AVLNode[T], x Elements[T], unbalanced *bool) bool {
 	var result bool = true
 	if *p == nil {
 		*unbalanced = true
@@ -147,7 +157,7 @@ func AVLIst(p **AVLNode, x T, unbalanced *bool) bool {
 }
 
 //AVLInsert 二叉平衡树的插入
-func AVLInsert(bt *AVLBTree, x T) bool {
-	var unbalanced bool
-	return AVLIst(&bt.Root, x, &unbalanced)
+func AVLInsert[T int](bt *AVLBTree[T], x Elements[T]) bool {
+	var unbalanced *bool
+	return AVLIst(&bt.Root, x, unbalanced)
 }

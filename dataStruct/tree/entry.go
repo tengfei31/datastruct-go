@@ -92,21 +92,21 @@ func BSearch2(lst listarr.List, k KeyType, x *listarr.T) bool {
 }
 
 //bSearchTr 二叉搜索树(递归算法)
-func btSearch(node *BTNode, k KeyType) *T {
+func btSearch(node *BTNode[int], k KeyType) *BnElement[int] {
 	if node == nil {
 		return nil
 	}
 	if KeyType(node.Element.GetWeight()) == k {
 		return &node.Element
 	} else if KeyType(node.Element.GetWeight()) < k {
-		return btSearch(node.LChild, k)
-	} else {
 		return btSearch(node.RChild, k)
+	} else {
+		return btSearch(node.LChild, k)
 	}
 }
 
 //BtSearch 二叉搜索树(递归算法)
-func BtSearch(tree Btree, k KeyType, x *T) bool {
+func BtSearch(tree Btree, k KeyType, x *BnElement[int]) bool {
 	var res = btSearch(tree.Root, k)
 	if res == nil {
 		return false
@@ -116,7 +116,7 @@ func BtSearch(tree Btree, k KeyType, x *T) bool {
 }
 
 //BtSearch2 二叉搜索树（迭代算法）
-func BtSearch2(tree Btree, k KeyType, x *T) bool {
+func BtSearch2(tree Btree, k KeyType, x *BnElement[int]) bool {
 	var node = tree.Root
 	if node == nil {
 		return false
@@ -135,8 +135,8 @@ func BtSearch2(tree Btree, k KeyType, x *T) bool {
 }
 
 //BtInsert 二叉搜索树的插入
-func BtInsert(tree *Btree, x T) bool {
-	var q, p *BTNode
+func BtInsert(tree *Btree, x BnElement[int]) bool {
+	var q, p *BTNode[int]
 	p = tree.Root
 	var k = x
 	for p != nil {
@@ -164,8 +164,8 @@ func BtInsert(tree *Btree, x T) bool {
 }
 
 //BtRemove 二叉搜索树的删除
-func BtRemove(tree *Btree, k KeyType, x *T) bool {
-	var c, r, s, p, q *BTNode
+func BtRemove(tree *Btree, k KeyType, x *BnElement[int]) bool {
+	var c, r, s, p, q *BTNode[int]
 	p = tree.Root
 	for p != nil && KeyType(p.Element.GetWeight()) != k {
 		q = p

@@ -7,23 +7,23 @@ import (
 
 const MaxSize = 10
 
-//MinHeap 最小堆结构
+// MinHeap 最小堆结构
 type MinHeap struct {
 	Size     int
 	MaxHeap  int
-	Elements []T
+	Elements []BnElement[int]
 }
 
-//NewMinHeap 创建最小堆对象
+// NewMinHeap 创建最小堆对象
 func NewMinHeap(maxHeap int) *MinHeap {
 	return &MinHeap{
 		Size:     0,
 		MaxHeap:  maxHeap,
-		Elements: make([]T, maxHeap),
+		Elements: make([]BnElement[int], maxHeap),
 	}
 }
 
-//HeapSort 最小堆排序
+// HeapSort 最小堆排序
 func (hp *MinHeap) HeapSort() {
 	var i int
 	//建堆
@@ -37,8 +37,8 @@ func (hp *MinHeap) HeapSort() {
 	}
 }
 
-//AdjustDown 最小堆向下调整
-func AdjustDown(heap []T, r int, n int) {
+// AdjustDown 最小堆向下调整
+func AdjustDown(heap []BnElement[int], r int, n int) {
 	var child = r * 2
 	var temp = heap[r]
 	for child <= n {
@@ -62,8 +62,8 @@ func AdjustDown(heap []T, r int, n int) {
 	heap[child/2] = temp
 }
 
-//AdjustUp 最小堆向上调整
-func AdjustUp(heap []T, n int) {
+// AdjustUp 最小堆向上调整
+func AdjustUp(heap []BnElement[int], n int) {
 	var i = n
 	var temp = heap[i]
 	// T = int
@@ -79,7 +79,7 @@ func AdjustUp(heap []T, n int) {
 	heap[i] = temp
 }
 
-//CreateHeap 创建最小堆
+// CreateHeap 创建最小堆
 func (hp *MinHeap) CreateHeap() {
 	var i int
 	var n = hp.Size
@@ -88,7 +88,7 @@ func (hp *MinHeap) CreateHeap() {
 	}
 }
 
-//Point 最高优先权队列值
+// Point 最高优先权队列值
 type Point struct {
 	base_interface.Weight
 	//其实可以不用这个参数的，只要实现weight接口就可以了，现在我只是为了方便
@@ -96,12 +96,12 @@ type Point struct {
 	Val int
 }
 
-//GetWeight 获取权重
+// GetWeight 获取权重
 func (p Point) GetWeight() int {
 	return p.W
 }
 
-//SetWeight 设置权重
+// SetWeight 设置权重
 func (p *Point) SetWeight(w int) {
 	p.W = w
 }
@@ -111,39 +111,39 @@ func MakeMinHeap() *MinHeap {
 	var heap = NewMinHeap(20)
 	var tmpSetElement = []int{503, 87, 512, 61, 908, 170, 275, 154, 509, 426, 523, 289, 456, 329, 77, 135, 500, 266}
 	for val := range tmpSetElement {
-		heap.Elements = append(heap.Elements, T{W: val})
+		heap.Elements = append(heap.Elements, BnElement[int]{W: val})
 	}
 	heap.Size = len(heap.Elements) - 1
 	heap.CreateHeap()
 	return heap
 }
 
-//PQueue 优先权队列
+// PQueue 优先权队列
 type PQueue MinHeap
 
-//CreatePQ 创建一个空的优先权队列
+// CreatePQ 创建一个空的优先权队列
 func (pq *PQueue) CreatePQ(maxSize int) {
 	pq.MaxHeap = maxSize
 	pq.Size = 0
-	pq.Elements = make([]T, pq.MaxHeap)
+	pq.Elements = make([]BnElement[int], pq.MaxHeap)
 	// T = int
 	//pq.Elements[0] = 0
 	// T = graph.EdgeNode
-	pq.Elements[0] = T{}
+	pq.Elements[0] = BnElement[int]{}
 }
 
-//IsEmpty 优先权队列是否为空
+// IsEmpty 优先权队列是否为空
 func (pq *PQueue) IsEmpty() bool {
 	return pq.Size <= 0
 }
 
-//IsFull 优先权队列是否满了
+// IsFull 优先权队列是否满了
 func (pq *PQueue) IsFull() bool {
 	return pq.Size >= pq.MaxHeap
 }
 
-//Append 将元素加入队列
-func (pq *PQueue) Append(x T) {
+// Append 将元素加入队列
+func (pq *PQueue) Append(x BnElement[int]) {
 	if pq.IsFull() {
 		log.Fatalf("Overflow")
 	}

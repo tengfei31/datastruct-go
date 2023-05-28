@@ -2,7 +2,7 @@ package tree
 
 //Btree 树
 type Btree struct {
-	Root *BTNode
+	Root *BTNode[int]
 }
 
 //CreateBT 创建空的二叉树
@@ -11,8 +11,8 @@ func (bt *Btree) CreateBT() {
 }
 
 //MakeBT 构建二叉树
-func (bt *Btree) MakeBT(x T, lt *Btree, rt *Btree) {
-	var p *BTNode = NewNode()
+func (bt *Btree) MakeBT(x BnElement[int], lt *Btree, rt *Btree) {
+	var p *BTNode[int] = NewNode()
 	p.Element = x
 	p.LChild = lt.Root
 	p.RChild = rt.Root
@@ -22,8 +22,8 @@ func (bt *Btree) MakeBT(x T, lt *Btree, rt *Btree) {
 }
 
 //BreakBT 置空二叉树,并返回二叉树的左右节点和跟元素
-func (bt *Btree) BreakBT(x *T, lt *Btree, rt *Btree) {
-	var p *BTNode = bt.Root
+func (bt *Btree) BreakBT(x *BnElement[int], lt *Btree, rt *Btree) {
+	var p *BTNode[int] = bt.Root
 	if p != nil {
 		*x = p.Element
 		lt.Root = p.LChild
@@ -40,8 +40,8 @@ func (bt *Btree) PreOrder() {
 
 //IPreOrder 前序便利
 func (bt *Btree) IPreOrder() {
-	var s []*BTNode
-	var p *BTNode = bt.Root
+	var s []*BTNode[int]
+	var p *BTNode[int] = bt.Root
 	//s = make([]*BTNode, 10)
 	for p != nil {
 		Visit(p)
@@ -68,8 +68,8 @@ func (bt *Btree) InOrder() {
 
 //IInOrder 中序遍历 TODO: 还有问题，需要修改
 func (bt *Btree) IInOrder() {
-	var s []*BTNode
-	var p *BTNode
+	var s []*BTNode[int]
+	var p *BTNode[int]
 	p = bt.Root
 	for p != nil || s != nil {
 		if p != nil {
@@ -112,7 +112,7 @@ func (bt *Btree) CopyofBT() Btree {
 
 //BuildThreadBT 构建中序线索树
 func (bt *Btree) BuildThreadBT() {
-	var pr *BTNode = new(BTNode)
+	var pr *BTNode[int] = new(BTNode[int])
 	if bt.Root != nil {
 		//pr = nil
 		bt.Root.MakeThread(&pr)
@@ -121,8 +121,8 @@ func (bt *Btree) BuildThreadBT() {
 }
 
 //GoFirst 第一个叶子节点
-func (bt *Btree) GoFirst() *BTNode {
-	var p *BTNode = bt.Root
+func (bt *Btree) GoFirst() *BTNode[int] {
+	var p *BTNode[int] = bt.Root
 	if p != nil {
 		for p.LChild != nil {
 			p = p.LChild
@@ -133,7 +133,7 @@ func (bt *Btree) GoFirst() *BTNode {
 
 //TInOrder 中序遍历二叉线索树
 func (bt *Btree) TInOrder() {
-	var p *BTNode = bt.GoFirst()
+	var p *BTNode[int] = bt.GoFirst()
 	for p != nil {
 		Visit(p)
 		p = p.Next()
@@ -143,7 +143,7 @@ func (bt *Btree) TInOrder() {
 //var ht [MaxSize]Btree
 
 //CreateHFMTree 返回构造成功的哈夫曼树
-func CreateHFMTree(w []T, n int) Btree {
+func CreateHFMTree(w []BnElement[int], n int) Btree {
 	var zero Btree
 	var ht [MaxSize]Btree
 	var i, k, k1, k2 int
@@ -153,8 +153,8 @@ func CreateHFMTree(w []T, n int) Btree {
 	}
 	for k = n - 1; k > 0; k-- {
 		Fmin(ht, &k1, &k2, k+1)
-		x := T{}
-		x.SetWeight(ht[k1].Root.Element.GetWeight()+ht[k2].Root.Element.GetWeight())
+		x := BnElement[int]{}
+		x.SetWeight(ht[k1].Root.Element.GetWeight() + ht[k2].Root.Element.GetWeight())
 		ht[k1].MakeBT(x, &ht[k1], &ht[k2])
 		ht[k2] = ht[k]
 	}
