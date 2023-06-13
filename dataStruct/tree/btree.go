@@ -1,18 +1,18 @@
 package tree
 
-//Btree 树
-type Btree struct {
-	Root *BTNode[int]
+// Btree 树
+type Btree[T int] struct {
+	Root *BTNode[T]
 }
 
-//CreateBT 创建空的二叉树
-func (bt *Btree) CreateBT() {
+// CreateBT 创建空的二叉树
+func (bt *Btree[T]) CreateBT() {
 	bt.Root = nil
 }
 
-//MakeBT 构建二叉树
-func (bt *Btree) MakeBT(x BnElement[int], lt *Btree, rt *Btree) {
-	var p *BTNode[int] = NewNode()
+// MakeBT 构建二叉树
+func (bt *Btree[T]) MakeBT(x BnElement[T], lt *Btree[T], rt *Btree[T]) {
+	var p *BTNode[T] = NewNode[T]()
 	p.Element = x
 	p.LChild = lt.Root
 	p.RChild = rt.Root
@@ -21,9 +21,9 @@ func (bt *Btree) MakeBT(x BnElement[int], lt *Btree, rt *Btree) {
 	bt.Root = p
 }
 
-//BreakBT 置空二叉树,并返回二叉树的左右节点和跟元素
-func (bt *Btree) BreakBT(x *BnElement[int], lt *Btree, rt *Btree) {
-	var p *BTNode[int] = bt.Root
+// BreakBT 置空二叉树,并返回二叉树的左右节点和跟元素
+func (bt *Btree[T]) BreakBT(x *BnElement[T], lt *Btree[T], rt *Btree[T]) {
+	var p *BTNode[T] = bt.Root
 	if p != nil {
 		*x = p.Element
 		lt.Root = p.LChild
@@ -33,15 +33,15 @@ func (bt *Btree) BreakBT(x *BnElement[int], lt *Btree, rt *Btree) {
 	}
 }
 
-//PreOrder 前序遍历
-func (bt *Btree) PreOrder() {
+// PreOrder 前序遍历
+func (bt *Btree[T]) PreOrder() {
 	bt.Root.PreOrd()
 }
 
-//IPreOrder 前序便利
-func (bt *Btree) IPreOrder() {
-	var s []*BTNode[int]
-	var p *BTNode[int] = bt.Root
+// IPreOrder 前序便利
+func (bt *Btree[T]) IPreOrder() {
+	var s []*BTNode[T]
+	var p *BTNode[T] = bt.Root
 	//s = make([]*BTNode, 10)
 	for p != nil {
 		Visit(p)
@@ -61,15 +61,15 @@ func (bt *Btree) IPreOrder() {
 	}
 }
 
-//InOrder 中序遍历
-func (bt *Btree) InOrder() {
+// InOrder 中序遍历
+func (bt *Btree[T]) InOrder() {
 	bt.Root.InOrd()
 }
 
-//IInOrder 中序遍历 TODO: 还有问题，需要修改
-func (bt *Btree) IInOrder() {
-	var s []*BTNode[int]
-	var p *BTNode[int]
+// IInOrder 中序遍历 TODO: 还有问题，需要修改
+func (bt *Btree[T]) IInOrder() {
+	var s []*BTNode[T]
+	var p *BTNode[T]
 	p = bt.Root
 	for p != nil || s != nil {
 		if p != nil {
@@ -86,33 +86,33 @@ func (bt *Btree) IInOrder() {
 	}
 }
 
-//PostOrder 后序遍历
-func (bt *Btree) PostOrder() {
+// PostOrder 后序遍历
+func (bt *Btree[T]) PostOrder() {
 	bt.Root.PostOrd()
 }
 
-//SizeBT 二叉树的节点数
-func (bt *Btree) SizeofBT() int {
+// SizeBT 二叉树的节点数
+func (bt *Btree[T]) SizeofBT() int {
 	return bt.Root.Size()
 }
 
-//DepthofBT 计算二叉树的高度
-func (bt *Btree) DepthofBT() int {
+// DepthofBT 计算二叉树的高度
+func (bt *Btree[T]) DepthofBT() int {
 	return bt.Root.Depth()
 }
 
-//CopyofBT 复制二叉树
-func (bt *Btree) CopyofBT() Btree {
-	var tree Btree
+// CopyofBT 复制二叉树
+func (bt *Btree[T]) CopyofBT() Btree[T] {
+	var tree Btree[T]
 	tree.Root = bt.Root.CopyBT()
 	return tree
 }
 
 //线索二叉树
 
-//BuildThreadBT 构建中序线索树
-func (bt *Btree) BuildThreadBT() {
-	var pr *BTNode[int] = new(BTNode[int])
+// BuildThreadBT 构建中序线索树
+func (bt *Btree[T]) BuildThreadBT() {
+	var pr *BTNode[T] = new(BTNode[T])
 	if bt.Root != nil {
 		//pr = nil
 		bt.Root.MakeThread(&pr)
@@ -120,9 +120,9 @@ func (bt *Btree) BuildThreadBT() {
 	}
 }
 
-//GoFirst 第一个叶子节点
-func (bt *Btree) GoFirst() *BTNode[int] {
-	var p *BTNode[int] = bt.Root
+// GoFirst 第一个叶子节点
+func (bt *Btree[T]) GoFirst() *BTNode[T] {
+	var p *BTNode[T] = bt.Root
 	if p != nil {
 		for p.LChild != nil {
 			p = p.LChild
@@ -131,9 +131,9 @@ func (bt *Btree) GoFirst() *BTNode[int] {
 	return p
 }
 
-//TInOrder 中序遍历二叉线索树
-func (bt *Btree) TInOrder() {
-	var p *BTNode[int] = bt.GoFirst()
+// TInOrder 中序遍历二叉线索树
+func (bt *Btree[T]) TInOrder() {
+	var p *BTNode[T] = bt.GoFirst()
 	for p != nil {
 		Visit(p)
 		p = p.Next()
@@ -142,10 +142,10 @@ func (bt *Btree) TInOrder() {
 
 //var ht [MaxSize]Btree
 
-//CreateHFMTree 返回构造成功的哈夫曼树
-func CreateHFMTree(w []BnElement[int], n int) Btree {
-	var zero Btree
-	var ht [MaxSize]Btree
+// CreateHFMTree 返回构造成功的哈夫曼树
+func CreateHFMTree[T int](w []BnElement[T], n int) Btree[T] {
+	var zero Btree[T]
+	var ht [MaxSize]Btree[T]
 	var i, k, k1, k2 int
 	zero.CreateBT()
 	for i = 0; i < n; i++ {
@@ -153,7 +153,7 @@ func CreateHFMTree(w []BnElement[int], n int) Btree {
 	}
 	for k = n - 1; k > 0; k-- {
 		Fmin(ht, &k1, &k2, k+1)
-		x := BnElement[int]{}
+		x := BnElement[T]{}
 		x.SetWeight(ht[k1].Root.Element.GetWeight() + ht[k2].Root.Element.GetWeight())
 		ht[k1].MakeBT(x, &ht[k1], &ht[k2])
 		ht[k2] = ht[k]
@@ -161,8 +161,8 @@ func CreateHFMTree(w []BnElement[int], n int) Btree {
 	return ht[0]
 }
 
-//Fmin 返回k棵二叉树的最小和次最小的二叉树在数组ht中的下标
-func Fmin(ht [MaxSize]Btree, k1 *int, k2 *int, k int) {
+// Fmin 返回k棵二叉树的最小和次最小的二叉树在数组ht中的下标
+func Fmin[T int](ht [MaxSize]Btree[T], k1 *int, k2 *int, k int) {
 	var min1 = ht[0].Root.Element.GetWeight()
 	*k1 = 0
 	var min2 = ht[1].Root.Element.GetWeight()

@@ -5,23 +5,24 @@ import (
 	"log"
 )
 
-//KeyType 关键字类型
+// KeyType 关键字类型
 type KeyType int
 
-//DataType 数据域类型
+// DataType 数据域类型
 type DataType int
 
-//Entry 数据类型
-type Entry struct {
-	Key  KeyType
-	Data DataType
+// Entry 数据类型
+type Entry[T int] struct {
+	Key  T
+	Data T
 }
 
-//SeqSearch 顺序搜索无序表
-func SeqSearch(lst listarr.List, k KeyType, x *listarr.T) bool {
+// SeqSearch 顺序搜索无序表
+func SeqSearch[T int](lst listarr.List[T], k T, x *listarr.ElementT[T]) bool {
 	if lst.Size > 0 {
-		for i := 0; i < lst.Size; i++ {
-			if KeyType(lst.Element[i].Key) == k {
+		var i int
+		for i = 0; i < lst.Size; i++ {
+			if lst.Element[i].Key == k {
 				*x = lst.Element[i]
 				return true
 			}
@@ -32,28 +33,28 @@ func SeqSearch(lst listarr.List, k KeyType, x *listarr.T) bool {
 
 const MaxNum = 100
 
-//SeqSearch2 顺序搜索有序表
-func SeqSearch2(lst listarr.List, k KeyType, x *listarr.T) bool {
-	var i int
+// SeqSearch2 顺序搜索有序表
+func SeqSearch2[T int](lst listarr.List[T], k T, x *listarr.ElementT[T]) bool {
+	var i T
 	lst.Element[lst.Size].Key = MaxNum
-	for i = 0; KeyType(lst.Element[i].Key) < k; i++ {
+	for i = 0; lst.Element[i].Key < k; i++ {
 	}
-	if KeyType(lst.Element[i].Key) == k {
+	if lst.Element[i].Key == k {
 		*x = lst.Element[i]
 		return true
 	}
 	return false
 }
 
-//bSch 二分搜索(递归)
-func bSch(lst listarr.List, k KeyType, low int, high int) int {
+// bSch 二分搜索(递归)
+func bSch[T int](lst listarr.List[T], k T, low int, high int) int {
 	var mid int = -1
 	if low <= high {
 		mid = (low + high) / 2
-		if k < KeyType(lst.Element[mid].Key) {
-			return bSch(lst, k, low, mid-1)
-		} else if k > KeyType(lst.Element[mid].Key) {
-			return bSch(lst, k, mid+1, high)
+		if k < lst.Element[mid].Key {
+			return bSch[T](lst, k, low, mid-1)
+		} else if k > lst.Element[mid].Key {
+			return bSch[T](lst, k, mid+1, high)
 		} else {
 			return mid
 		}
@@ -61,10 +62,10 @@ func bSch(lst listarr.List, k KeyType, low int, high int) int {
 	return mid
 }
 
-//BSearch 二分查找(递归)
-func BSearch(lst listarr.List, k KeyType, x *listarr.T) bool {
+// BSearch 二分查找(递归)
+func BSearch[T int](lst listarr.List[T], k T, x *listarr.ElementT[T]) bool {
 	var i int
-	i = bSch(lst, k, 0, lst.Size)
+	i = bSch[T](lst, k, 0, lst.Size)
 	if i < 0 {
 		return false
 	}
@@ -72,16 +73,16 @@ func BSearch(lst listarr.List, k KeyType, x *listarr.T) bool {
 	return true
 }
 
-//BSearch2 二分搜索(迭代算法)
-func BSearch2(lst listarr.List, k KeyType, x *listarr.T) bool {
+// BSearch2 二分搜索(迭代算法)
+func BSearch2[T int](lst listarr.List[T], k T, x *listarr.ElementT[T]) bool {
 	var mid int
 	var low int = 0
 	var high int = lst.Size
 	for low <= high {
 		mid = (low + high) / 2
-		if k < KeyType(lst.Element[mid].Key) {
+		if k < lst.Element[mid].Key {
 			high = mid - 1
-		} else if k > KeyType(lst.Element[mid].Key) {
+		} else if k > lst.Element[mid].Key {
 			low = mid + 1
 		} else {
 			*x = lst.Element[mid]
@@ -91,23 +92,23 @@ func BSearch2(lst listarr.List, k KeyType, x *listarr.T) bool {
 	return false
 }
 
-//bSearchTr 二叉搜索树(递归算法)
-func btSearch(node *BTNode[int], k KeyType) *BnElement[int] {
+// bSearchTr 二叉搜索树(递归算法)
+func btSearch[T int](node *BTNode[T], k T) *BnElement[T] {
 	if node == nil {
 		return nil
 	}
-	if KeyType(node.Element.GetWeight()) == k {
+	if node.Element.GetWeight() == k {
 		return &node.Element
-	} else if KeyType(node.Element.GetWeight()) < k {
-		return btSearch(node.RChild, k)
+	} else if node.Element.GetWeight() < k {
+		return btSearch[T](node.RChild, k)
 	} else {
-		return btSearch(node.LChild, k)
+		return btSearch[T](node.LChild, k)
 	}
 }
 
-//BtSearch 二叉搜索树(递归算法)
-func BtSearch(tree Btree, k KeyType, x *BnElement[int]) bool {
-	var res = btSearch(tree.Root, k)
+// BtSearch 二叉搜索树(递归算法)
+func BtSearch[T int](tree Btree[T], k T, x *BnElement[T]) bool {
+	var res = btSearch[T](tree.Root, k)
 	if res == nil {
 		return false
 	}
@@ -115,17 +116,17 @@ func BtSearch(tree Btree, k KeyType, x *BnElement[int]) bool {
 	return true
 }
 
-//BtSearch2 二叉搜索树（迭代算法）
-func BtSearch2(tree Btree, k KeyType, x *BnElement[int]) bool {
+// BtSearch2 二叉搜索树（迭代算法）
+func BtSearch2[T int](tree Btree[T], k T, x *BnElement[T]) bool {
 	var node = tree.Root
 	if node == nil {
 		return false
 	}
 	for node != nil {
-		if KeyType(node.Element.GetWeight()) == k {
+		if node.Element.GetWeight() == k {
 			*x = node.Element
 			return true
-		} else if KeyType(node.Element.GetWeight()) < k {
+		} else if node.Element.GetWeight() < k {
 			node = node.LChild
 		} else {
 			node = node.RChild
@@ -134,9 +135,9 @@ func BtSearch2(tree Btree, k KeyType, x *BnElement[int]) bool {
 	return false
 }
 
-//BtInsert 二叉搜索树的插入
-func BtInsert(tree *Btree, x BnElement[int]) bool {
-	var q, p *BTNode[int]
+// BtInsert 二叉搜索树的插入
+func BtInsert[T int](tree *Btree[T], x BnElement[T]) bool {
+	var q, p *BTNode[T]
 	p = tree.Root
 	var k = x
 	for p != nil {
@@ -163,13 +164,13 @@ func BtInsert(tree *Btree, x BnElement[int]) bool {
 	return true
 }
 
-//BtRemove 二叉搜索树的删除
-func BtRemove(tree *Btree, k KeyType, x *BnElement[int]) bool {
-	var c, r, s, p, q *BTNode[int]
+// BtRemove 二叉搜索树的删除
+func BtRemove[T int](tree *Btree[T], k T, x *BnElement[T]) bool {
+	var c, r, s, p, q *BTNode[T]
 	p = tree.Root
-	for p != nil && KeyType(p.Element.GetWeight()) != k {
+	for p != nil && p.Element.GetWeight() != k {
 		q = p
-		if k < KeyType(p.Element.GetWeight()) {
+		if k < p.Element.GetWeight() {
 			p = p.LChild
 		} else {
 			p = p.RChild
@@ -207,8 +208,8 @@ func BtRemove(tree *Btree, k KeyType, x *BnElement[int]) bool {
 	return true
 }
 
-//BFSearch 斐波那契搜索
-func BFSearch(lst listarr.List, k KeyType, x *listarr.T) bool {
+// BFSearch 斐波那契搜索
+func BFSearch[T int](lst listarr.List[T], k T, x *listarr.ElementT[T]) bool {
 	var (
 		t int
 		i int = 1
@@ -224,10 +225,10 @@ func BFSearch(lst listarr.List, k KeyType, x *listarr.T) bool {
 	p = q - i
 	q = i - p
 	for {
-		if KeyType(lst.Element[i-1].Key) == k {
+		if lst.Element[i-1].Key == k {
 			*x = lst.Element[i-1]
 			return true
-		} else if KeyType(lst.Element[i-1].Key) > k {
+		} else if lst.Element[i-1].Key > k {
 			if q == 0 {
 				return false
 			} else {
