@@ -7,7 +7,7 @@ import (
 )
 
 func TestBtSearch(t *testing.T) {
-	var bt *Btree = new(Btree)
+	var bt = new(Btree[int])
 	//二叉搜索树的插入
 	for _, num := range []int{28, 21, 25, 36, 33, 43} {
 		var element = BnElement[int]{W: num}
