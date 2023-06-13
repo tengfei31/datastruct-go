@@ -8,12 +8,11 @@ import (
 
 func TestBtSearch(t *testing.T) {
 	var bt *Btree = new(Btree)
-	BtInsert(bt, BnElement[int]{W: 28})
-	BtInsert(bt, BnElement[int]{W: 21})
-	BtInsert(bt, BnElement[int]{W: 25})
-	BtInsert(bt, BnElement[int]{W: 36})
-	BtInsert(bt, BnElement[int]{W: 33})
-	BtInsert(bt, BnElement[int]{W: 43})
+	//二叉搜索树的插入
+	for _, num := range []int{28, 21, 25, 36, 33, 43} {
+		var element = BnElement[int]{W: num}
+		BtInsert(bt, element)
+	}
 	//中序遍历bt
 	bt.InOrder()
 
@@ -31,5 +30,5 @@ func TestBtSearch(t *testing.T) {
 	//中序遍历bt
 	bt.InOrder()
 	fmt.Printf("%+v\n", bt.Root)
-	fmt.Println(*x)
+	fmt.Printf("%+v\n", *x)
 }
