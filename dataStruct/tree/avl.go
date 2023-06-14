@@ -6,8 +6,7 @@ import (
 
 //二叉平衡树
 
-type K int
-
+// Elements 存储的数据和要比较的值
 type Elements[T int] struct {
 	W   T
 	Val T
@@ -116,7 +115,7 @@ func AVLIst[T int](p **AVLNode[T], x Elements[T], unbalanced *bool) bool {
 		*unbalanced = true
 		*p = NewNode3[T](x)
 	} else if x.GetWeight() < (*p).Element.GetWeight() {
-		result = AVLIst[T](&(*p).LChild, x, unbalanced)
+		result = AVLIst[T](&((*p).LChild), x, unbalanced)
 		if *unbalanced {
 			switch (*p).Bf {
 			case -1:
@@ -136,7 +135,7 @@ func AVLIst[T int](p **AVLNode[T], x Elements[T], unbalanced *bool) bool {
 		result = false
 		log.Println("The key is already in the tree")
 	} else {
-		result = AVLIst[T](&(*p).RChild, x, unbalanced)
+		result = AVLIst[T](&((*p).RChild), x, unbalanced)
 		if *unbalanced {
 			switch (*p).Bf {
 			case 1:
