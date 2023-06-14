@@ -5,10 +5,10 @@ import (
 	"testing"
 )
 
-//testAVLBTree 测试二叉平衡树
+// testAVLBTree 测试二叉平衡树
 func TestAVLBTree(t *testing.T) {
-	var bt *AVLBTree[int] = new(AVLBTree[int])
-	var arr []int = []int{45, 28, 12, 14, 23}
+	var bt = new(AVLBTree[int])
+	var arr = []int{45, 28, 12, 14, 23}
 	for i := 0; i < len(arr); i++ {
 		var x = Elements[int]{
 			W: arr[i],

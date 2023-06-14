@@ -17,31 +17,29 @@ func (e Elements[T]) GetWeight() T {
 	return e.W
 }
 
-
-//AVLNode AVL二叉平衡树结点
+// AVLNode AVL二叉平衡树结点
 type AVLNode[T int] struct {
 	Element        Elements[T]
-	Bf             T
+	Bf             int
 	LChild, RChild *AVLNode[T]
 }
 
-//AVLBTree 二叉平衡树
+// AVLBTree 二叉平衡树
 type AVLBTree[T int] struct {
 	Root *AVLNode[T]
 }
 
-//NewNode2 创建结点
-func (avl *AVLNode[T]) NewNode2(x Elements[T]) *AVLNode[T] {
-	avl = &AVLNode[T]{
+// NewNode3 创建结点
+func NewNode3[T int](x Elements[T]) *AVLNode[T] {
+	return &AVLNode[T]{
 		Element: x,
-		Bf:      T(0),
+		Bf:      0,
 		LChild:  nil,
 		RChild:  nil,
 	}
-	return avl
 }
 
-//LeftRotation 二叉平衡树左旋转函数
+// LeftRotation 二叉平衡树左旋转函数
 func LeftRotation[T int](s **AVLNode[T], unbalanced *bool) {
 	var u, r *AVLNode[T]
 	r = (*s).LChild
@@ -76,7 +74,7 @@ func LeftRotation[T int](s **AVLNode[T], unbalanced *bool) {
 	*unbalanced = false
 }
 
-//RightRotation 二叉平衡树右旋转函数
+// RightRotation 二叉平衡树右旋转函数
 func RightRotation[T int](s **AVLNode[T], unbalanced *bool) {
 	var u, r *AVLNode[T]
 	r = (*s).RChild
@@ -111,14 +109,14 @@ func RightRotation[T int](s **AVLNode[T], unbalanced *bool) {
 	*unbalanced = false
 }
 
-//AVLIst 二叉平衡树的插入
+// AVLIst 二叉平衡树的插入
 func AVLIst[T int](p **AVLNode[T], x Elements[T], unbalanced *bool) bool {
-	var result bool = true
+	var result = true
 	if *p == nil {
 		*unbalanced = true
-		*p = (*p).NewNode2(x)
+		*p = NewNode3[T](x)
 	} else if x.GetWeight() < (*p).Element.GetWeight() {
-		result = AVLIst(&(*p).LChild, x, unbalanced)
+		result = AVLIst[T](&(*p).LChild, x, unbalanced)
 		if *unbalanced {
 			switch (*p).Bf {
 			case -1:
@@ -138,7 +136,7 @@ func AVLIst[T int](p **AVLNode[T], x Elements[T], unbalanced *bool) bool {
 		result = false
 		log.Println("The key is already in the tree")
 	} else {
-		result = AVLIst(&(*p).RChild, x, unbalanced)
+		result = AVLIst[T](&(*p).RChild, x, unbalanced)
 		if *unbalanced {
 			switch (*p).Bf {
 			case 1:
@@ -156,8 +154,8 @@ func AVLIst[T int](p **AVLNode[T], x Elements[T], unbalanced *bool) bool {
 	return result
 }
 
-//AVLInsert 二叉平衡树的插入
+// AVLInsert 二叉平衡树的插入
 func AVLInsert[T int](bt *AVLBTree[T], x Elements[T]) bool {
-	var unbalanced *bool
+	var unbalanced = new(bool)
 	return AVLIst(&bt.Root, x, unbalanced)
 }
