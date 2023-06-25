@@ -127,35 +127,6 @@ func nginxPipe() {
 	fmt.Printf("%s\n", outputBuf2.String())
 }
 
-// testBtree 测试二叉树
-func testBtree() {
-	var a, x, y, z tree.Btree
-	//var e tree.T
-	a.CreateBT()
-	x.CreateBT()
-	y.CreateBT()
-	z.CreateBT()
-	y.MakeBT(tree.T{W: 'E'}, &a, &a)
-	z.MakeBT(tree.T{W: 'F'}, &a, &a)
-	x.MakeBT(tree.T{W: 'C'}, &y, &z)
-	y.MakeBT(tree.T{W: 'D'}, &a, &a)
-	z.MakeBT(tree.T{W: 'B'}, &y, &x)
-
-	fmt.Println("先序遍历")
-	//z.PreOrder()
-	z.IPreOrder()
-	fmt.Println("中序遍历")
-	z.InOrder()
-	//z.IInOrder()
-	//z.BreakBT(&e, &y, &x)
-	//fmt.Println("中序遍历二叉线索树")
-	//z.BuildThreadBT()
-	//z.TInOrder()
-	fmt.Println("后序遍历")
-	z.PostOrder()
-
-}
-
 // testHFMCode 测试哈夫曼编码
 func testHFMCode() {
 	var w = make([]tree.T, 0, 6)
@@ -200,43 +171,6 @@ func testBFSearch() {
 	}
 	fmt.Println("斐波那契搜索函数返回：", x)
 
-}
-
-// testBtSearch 测试二叉搜索树
-func testBtSearch() {
-	var bt *tree.Btree = new(tree.Btree)
-	tree.BtInsert(bt, tree.T{W: 28})
-	tree.BtInsert(bt, tree.T{W: 21})
-	tree.BtInsert(bt, tree.T{W: 25})
-	tree.BtInsert(bt, tree.T{W: 36})
-	tree.BtInsert(bt, tree.T{W: 33})
-	tree.BtInsert(bt, tree.T{W: 43})
-	//中序遍历bt
-	bt.InOrder()
-
-	//二叉搜索树删除节点
-	var x *tree.T = new(tree.T)
-	var res bool = tree.BtRemove(bt, 28, x)
-	if !res {
-		log.Printf("btremove is false")
-		return
-	}
-	//中序遍历bt
-	bt.InOrder()
-	fmt.Printf("%+v\n", bt.Root)
-	fmt.Println(*x)
-}
-
-// testAVLBTree 测试二叉平衡树
-func testAVLBTree() {
-	var bt *tree.AVLBTree = new(tree.AVLBTree)
-	tree.AVLInsert(bt, tree.T{W: 45})
-	tree.AVLInsert(bt, tree.T{W: 28})
-	tree.AVLInsert(bt, tree.T{W: 15})
-	tree.AVLInsert(bt, tree.T{W: 12})
-	tree.AVLInsert(bt, tree.T{W: 14})
-	tree.AVLInsert(bt, tree.T{W: 23})
-	fmt.Printf("%+v\n", bt.Root)
 }
 
 // testSkipTable 测试跳表

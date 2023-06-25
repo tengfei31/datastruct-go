@@ -10,11 +10,11 @@ type BnElement[T int] struct {
 	Val T
 }
 
-func (e BnElement[T]) GetWeight() T {
+func (e *BnElement[T]) GetWeight() T {
 	return e.W
 }
 
-func (e BnElement[T]) SetWeight(w T) {
+func (e *BnElement[T]) SetWeight(w T) {
 	e.W = w
 }
 
