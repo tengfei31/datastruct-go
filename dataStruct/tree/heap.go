@@ -154,7 +154,7 @@ func (pq *PQueue) Append(x BnElement[int]) {
 }
 
 // Serve 返回最高优先权的元素值，并从队列中删除该元素
-func (pq *PQueue) Serve() base_interface.Weight {
+func (pq *PQueue) Serve() BnElement[int] {
 	if pq.IsEmpty() {
 		log.Fatalf("Underflow")
 	}

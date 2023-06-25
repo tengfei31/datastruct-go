@@ -127,7 +127,7 @@ func nginxPipe() {
 	fmt.Printf("%s\n", outputBuf2.String())
 }
 
-//testBtree 测试二叉树
+// testBtree 测试二叉树
 func testBtree() {
 	var a, x, y, z tree.Btree
 	//var e tree.T
@@ -156,33 +156,15 @@ func testBtree() {
 
 }
 
-//testHeap 测试最小堆
-func testHeap() {
-	var heapQueue *tree.PQueue = new(tree.PQueue)
-
-	heapQueue.CreatePQ(10)
-	heapQueue.Append(tree.T{W: 71})
-	heapQueue.Append(tree.T{W: 74})
-	heapQueue.Append(tree.T{W: 2})
-	heapQueue.Append(tree.T{W: 72})
-	heapQueue.Append(tree.T{W: 54})
-	heapQueue.Append(tree.T{W: 93})
-	heapQueue.Append(tree.T{W: 52})
-	heapQueue.Append(tree.T{W: 28})
-	fmt.Println(heapQueue)
-	fmt.Println("1:", heapQueue.Serve())
-	fmt.Println("2:", heapQueue.Serve())
-}
-
-//testHFMCode 测试哈夫曼编码
+// testHFMCode 测试哈夫曼编码
 func testHFMCode() {
 	var w = make([]tree.T, 0, 6)
-	w = append(w, tree.T{W:9}, tree.T{W:11}, tree.T{W:13}, tree.T{W:3}, tree.T{W:5}, tree.T{W:12})
+	w = append(w, tree.T{W: 9}, tree.T{W: 11}, tree.T{W: 13}, tree.T{W: 3}, tree.T{W: 5}, tree.T{W: 12})
 	var ht tree.Btree = tree.CreateHFMTree(w, len(w))
 	fmt.Println(ht)
 }
 
-//testUFset 测试并查集和等价关系
+// testUFset 测试并查集和等价关系
 func testUFset() {
 	var ufset *tree.UFset = new(tree.UFset)
 	ufset.CreateUFset(tree.MaxSize)
@@ -198,7 +180,7 @@ func testUFset() {
 	fmt.Println(j, i, ufset)
 }
 
-//testBFSearch 测试斐波那契搜索
+// testBFSearch 测试斐波那契搜索
 func testBFSearch() {
 	var lst *listarr.List = new(listarr.List)
 	lst.CreateList(10)
@@ -220,7 +202,7 @@ func testBFSearch() {
 
 }
 
-//testBtSearch 测试二叉搜索树
+// testBtSearch 测试二叉搜索树
 func testBtSearch() {
 	var bt *tree.Btree = new(tree.Btree)
 	tree.BtInsert(bt, tree.T{W: 28})
@@ -245,7 +227,7 @@ func testBtSearch() {
 	fmt.Println(*x)
 }
 
-//testAVLBTree 测试二叉平衡树
+// testAVLBTree 测试二叉平衡树
 func testAVLBTree() {
 	var bt *tree.AVLBTree = new(tree.AVLBTree)
 	tree.AVLInsert(bt, tree.T{W: 45})
@@ -257,7 +239,7 @@ func testAVLBTree() {
 	fmt.Printf("%+v\n", bt.Root)
 }
 
-//testSkipTable 测试跳表
+// testSkipTable 测试跳表
 func testSkipTable() {
 	var skip = hashtable.NewSkipList(100000, 10)
 	var insertArr = []hashtable.T{
@@ -285,7 +267,7 @@ func testSkipTable() {
 	fmt.Println(x, skip.Level)
 }
 
-//testHashTable 测试散列表
+// testHashTable 测试散列表
 func testHashTable() {
 	var hashTB *hashtable.HashTable = new(hashtable.HashTable)
 	var divitor = 13

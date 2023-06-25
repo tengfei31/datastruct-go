@@ -91,7 +91,7 @@ func (bt *Btree[T]) PostOrder() {
 	bt.Root.PostOrd()
 }
 
-// SizeBT 二叉树的节点数
+// SizeofBT 二叉树的节点数
 func (bt *Btree[T]) SizeofBT() int {
 	return bt.Root.Size()
 }
