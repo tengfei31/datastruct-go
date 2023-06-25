@@ -5,12 +5,6 @@ import (
 	"log"
 )
 
-// KeyType 关键字类型
-type KeyType int
-
-// DataType 数据域类型
-type DataType int
-
 // Entry 数据类型
 type Entry[T int] struct {
 	Key  T
