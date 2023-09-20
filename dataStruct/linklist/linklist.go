@@ -9,27 +9,25 @@ type Entry struct {
 	Data int
 }
 
-type T Entry
-
 type Node struct {
-	Element T
+	Element Entry
 	Link    *Node
 }
 
-//NewNode2 构造新结点
-func NewNode2(x T) *Node {
+// NewNode2 构造新结点
+func NewNode2(x Entry) *Node {
 	var p *Node = new(Node)
 	p.Element = x
 	p.Link = nil
 	return p
 }
 
-//CreateNode 创建一个单向链表
+// CreateNode 创建一个单向链表
 func CreateNode(n int) *Node {
 	var node *Node
 
 	for i := n; i >= 1; i-- {
-		tmpNode := NewNode2(T{Key: i, Data: i})
+		tmpNode := NewNode2(Entry{Key: i, Data: i})
 		if node == nil {
 			node = tmpNode
 			continue
@@ -40,7 +38,7 @@ func CreateNode(n int) *Node {
 	return node
 }
 
-//ReverseList 反转单向链表
+// ReverseList 反转单向链表
 func ReverseList(node *Node) *Node {
 	var newNode *Node = nil
 	var currNode *Node = node
@@ -53,7 +51,7 @@ func ReverseList(node *Node) *Node {
 	return newNode
 }
 
-//PrintNode 遍历单向链表
+// PrintNode 遍历单向链表
 func PrintNode(node *Node) {
 	//遍历单向链表
 	for node != nil {

@@ -9,25 +9,26 @@ import (
 type KeyType int
 type DataType int
 
+// Entry 数据源
 type Entry struct {
 	Key  KeyType
 	Data DataType
 }
-type T Entry
 
+// SkipNode 跳表结点
 type SkipNode struct {
-	Element T
+	Element Entry
 	Link    []*SkipNode
 }
 
-//NewSkipNode 初始化node
+// NewSkipNode 初始化node
 func NewSkipNode(lev int) *SkipNode {
 	var p = new(SkipNode)
 	p.Link = make([]*SkipNode, 0, lev)
 	return p
 }
 
-//SkipList 跳表结构
+// SkipList 跳表结构
 type SkipList struct {
 	MaxLevel, Level int
 	TailKey         KeyType
@@ -35,14 +36,14 @@ type SkipList struct {
 	Last            []*SkipNode
 }
 
-//NewSkipList 创建跳表
+// NewSkipList 创建跳表
 func NewSkipList(maxNum KeyType, maxLev int) *SkipList {
 	var skipList = new(SkipList)
 	skipList.CreateSkipList(maxNum, maxLev)
 	return skipList
 }
 
-//CreateSkipList 初始化跳表
+// CreateSkipList 初始化跳表
 func (sl *SkipList) CreateSkipList(maxNum KeyType, maxLev int) {
 	var i int
 	sl.MaxLevel = maxLev
@@ -58,7 +59,7 @@ func (sl *SkipList) CreateSkipList(maxNum KeyType, maxLev int) {
 	}
 }
 
-//CountLevel 计算跳表的层级
+// CountLevel 计算跳表的层级
 func (sl *SkipList) CountLevel() int {
 	var lev int
 	//随机数
@@ -72,8 +73,8 @@ func (sl *SkipList) CountLevel() int {
 	return sl.MaxLevel
 }
 
-//Search 搜索某一个key
-func (sl *SkipList) Search(k KeyType, x *T) bool {
+// Search 搜索某一个key
+func (sl *SkipList) Search(k KeyType, x *Entry) bool {
 	if k >= sl.TailKey {
 		return false
 	}
@@ -87,7 +88,7 @@ func (sl *SkipList) Search(k KeyType, x *T) bool {
 	return x.Key == k
 }
 
-//SaveSearch 查找某一个key的位置
+// SaveSearch 查找某一个key的位置
 func (sl *SkipList) saveSearch(k KeyType) *SkipNode {
 	if k >= sl.TailKey {
 		return nil
@@ -106,8 +107,8 @@ func (sl *SkipList) saveSearch(k KeyType) *SkipNode {
 	return p.Link[0]
 }
 
-//Insert 将key插入到跳表中
-func (sl *SkipList) Insert(x T) bool {
+// Insert 将key插入到跳表中
+func (sl *SkipList) Insert(x Entry) bool {
 	var p, y *SkipNode
 	var lev, i int
 	if x.Key >= sl.TailKey {
@@ -136,8 +137,8 @@ func (sl *SkipList) Insert(x T) bool {
 	return true
 }
 
-//Delete 删除跳表中某一个key
-func (sl *SkipList) Delete(k KeyType, x *T) bool {
+// Delete 删除跳表中某一个key
+func (sl *SkipList) Delete(k KeyType, x *Entry) bool {
 	var p *SkipNode // = new(SkipNode)
 	var i int
 	if k >= sl.TailKey {

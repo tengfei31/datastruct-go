@@ -2,10 +2,9 @@ package hashtable
 
 //HashTable 散列表
 
-//NeverUsed 表示这个位置没有被使用
+// NeverUsed 表示这个位置没有被使用
 const NeverUsed KeyType = 0
 
-//
 const (
 	UnderFlow int = iota
 	OverFlow
@@ -14,13 +13,13 @@ const (
 	NotPresent
 )
 
-//HashNode 节点
+// HashNode 节点
 type HashNode struct {
 	Empty   bool
-	Element T
+	Element Entry
 }
 
-//HashTable 散列表
+// HashTable 散列表
 type HashTable struct {
 	M int
 	t []*HashNode
@@ -28,12 +27,12 @@ type HashTable struct {
 
 //构建线性探查散列表
 
-//NewArray 创建空节点数组
+// NewArray 创建空节点数组
 func NewArray(len int) []*HashNode {
 	return make([]*HashNode, len)
 }
 
-//CreateHashTable 创建空的线性探查散列表
+// CreateHashTable 创建空的线性探查散列表
 func CreateHashTable(htb *HashTable, divitor int) {
 	var i int
 	if htb == nil {
@@ -52,7 +51,7 @@ func CreateHashTable(htb *HashTable, divitor int) {
 	}
 }
 
-//HSearch 线性探查散列表的搜索
+// HSearch 线性探查散列表的搜索
 func (htb *HashTable) HSearch(k KeyType, pos *int) int {
 	var i, j int
 	*pos = int(k) % htb.M
@@ -91,8 +90,8 @@ func (htb *HashTable) HSearch(k KeyType, pos *int) int {
 	return NotPresent
 }
 
-//Search  线性探查散列表的搜索
-func (htb *HashTable) Search(k KeyType, x *T) bool {
+// Search  线性探查散列表的搜索
+func (htb *HashTable) Search(k KeyType, x *Entry) bool {
 	var pos = new(int)
 	result := htb.HSearch(k, pos)
 	if result == Success {
@@ -102,8 +101,8 @@ func (htb *HashTable) Search(k KeyType, x *T) bool {
 	return false
 }
 
-//Insert 线性探查散列表的插入
-func (htb *HashTable) Insert(x T) bool {
+// Insert 线性探查散列表的插入
+func (htb *HashTable) Insert(x Entry) bool {
 	var pos = new(int)
 	result := htb.HSearch(x.Key, pos)
 	//如果原表未满且不包含重复元素
@@ -117,8 +116,8 @@ func (htb *HashTable) Insert(x T) bool {
 	return false
 }
 
-//Delete 线性探查散列表的删除
-func (htb *HashTable) Delete(k KeyType, x *T) bool {
+// Delete 线性探查散列表的删除
+func (htb *HashTable) Delete(k KeyType, x *Entry) bool {
 	var pos = new(int)
 	result := htb.HSearch(k, pos)
 	//搜索到，删除成功

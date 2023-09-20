@@ -35,6 +35,7 @@ func TestBtree(t *testing.T) {
 
 }
 
+// TestBtSearch 二叉搜索树
 func TestBtSearch(t *testing.T) {
 	var bt = new(Btree[int])
 	//二叉搜索树的插入
