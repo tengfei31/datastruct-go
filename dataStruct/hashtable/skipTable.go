@@ -77,7 +77,6 @@ func (sl *SkipList) CreateSkipList(maxNum KeyType, maxLev int) {
 	sl.Tail.Element.Key = maxNum
 	for i = 0; i < maxLev; i++ {
 		sl.Head.Link[i] = sl.Tail
-		//sl.Head.Link = append(sl.Head.Link, sl.Tail)
 	}
 }
 
@@ -121,11 +120,6 @@ func (sl *SkipList) saveSearch(k KeyType) *SkipNode {
 			p = p.Link[i]
 		}
 		sl.Last[i] = p
-		//if len(sl.Last) <= 0 {
-		//	sl.Last = append(sl.Last, p)
-		//} else {
-		//	sl.Last[i] = p
-		//}
 	}
 	return p.Link[0]
 }
