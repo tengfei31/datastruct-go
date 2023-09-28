@@ -6,18 +6,20 @@ import (
 	"math/rand"
 )
 
+// SkipListInterface 跳表所需实现的方法
 type SkipListInterface interface {
+	// CreateSkipList 初始化跳表
 	CreateSkipList(maxNum KeyType, maxLev int)
+	// Search 搜索某一个key
 	Search(k KeyType, x *Entry) bool
+	// saveSearch 查找某一个key的位置，为了实现插入和删除设计的私有函数
 	saveSearch(k KeyType) *SkipNode
+	// Insert 将key插入到跳表中
 	Insert(x Entry) bool
+	// Delete 删除跳表中某一个key
 	Delete(k KeyType, x *Entry) bool
+	// CountLevel 计算跳表的层级
 	CountLevel() int
-}
-
-type DataTypeInterface interface {
-	GetData() Entry
-	SetData(data DataType)
 }
 
 // KeyType key的数据类型
@@ -38,13 +40,6 @@ type SkipNode struct {
 	Link    []*SkipNode
 }
 
-// NewSkipNode 初始化node
-func NewSkipNode(lev int) *SkipNode {
-	var p = new(SkipNode)
-	p.Link = make([]*SkipNode, lev, lev)
-	return p
-}
-
 // SkipList 跳表结构
 // MaxLevel 最大层级
 // Level 当前层级数
@@ -54,6 +49,13 @@ type SkipList struct {
 	TailKey         KeyType
 	Head, Tail      *SkipNode
 	Last            []*SkipNode
+}
+
+// NewSkipNode 初始化node
+func NewSkipNode(lev int) *SkipNode {
+	var p = new(SkipNode)
+	p.Link = make([]*SkipNode, lev, lev)
+	return p
 }
 
 // NewSkipList 创建跳表
