@@ -6,7 +6,24 @@ import (
 	"math/rand"
 )
 
+type SkipListInterface interface {
+	CreateSkipList(maxNum KeyType, maxLev int)
+	Search(k KeyType, x *Entry) bool
+	saveSearch(k KeyType) *SkipNode
+	Insert(x Entry) bool
+	Delete(k KeyType, x *Entry) bool
+	CountLevel() int
+}
+
+type DataTypeInterface interface {
+	GetData() Entry
+	SetData(data DataType)
+}
+
+// KeyType key的数据类型
 type KeyType int
+
+// DataType 数据的类型
 type DataType int
 
 // Entry 数据源
@@ -24,11 +41,14 @@ type SkipNode struct {
 // NewSkipNode 初始化node
 func NewSkipNode(lev int) *SkipNode {
 	var p = new(SkipNode)
-	p.Link = make([]*SkipNode, 0, lev)
+	p.Link = make([]*SkipNode, lev, lev)
 	return p
 }
 
 // SkipList 跳表结构
+// MaxLevel 最大层级
+// Level 当前层级数
+// TailKey 尾部的key,最大的key
 type SkipList struct {
 	MaxLevel, Level int
 	TailKey         KeyType
@@ -44,6 +64,8 @@ func NewSkipList(maxNum KeyType, maxLev int) *SkipList {
 }
 
 // CreateSkipList 初始化跳表
+// maxNum 最大的key的值
+// maxLev 最大的层级
 func (sl *SkipList) CreateSkipList(maxNum KeyType, maxLev int) {
 	var i int
 	sl.MaxLevel = maxLev
@@ -51,11 +73,11 @@ func (sl *SkipList) CreateSkipList(maxNum KeyType, maxLev int) {
 	sl.TailKey = maxNum
 	sl.Head = NewSkipNode(maxLev)
 	sl.Tail = NewSkipNode(0)
-	sl.Last = make([]*SkipNode, 0, maxLev+1)
+	sl.Last = make([]*SkipNode, maxLev+1, maxLev+1)
 	sl.Tail.Element.Key = maxNum
-	for i = 0; i <= maxLev; i++ {
-		//sl.Head.Link[i] = sl.Tail
-		sl.Head.Link = append(sl.Head.Link, sl.Tail)
+	for i = 0; i < maxLev; i++ {
+		sl.Head.Link[i] = sl.Tail
+		//sl.Head.Link = append(sl.Head.Link, sl.Tail)
 	}
 }
 
@@ -63,7 +85,7 @@ func (sl *SkipList) CreateSkipList(maxNum KeyType, maxLev int) {
 func (sl *SkipList) CountLevel() int {
 	var lev int
 	//随机数
-	rand.Seed(1)
+	rand.NewSource(1)
 	for rand.Intn(math.MaxInt16) <= (math.MaxInt16 / 2) {
 		lev++
 	}
@@ -79,7 +101,7 @@ func (sl *SkipList) Search(k KeyType, x *Entry) bool {
 		return false
 	}
 	var p = sl.Head
-	for i := sl.Level; i > 0; i-- {
+	for i := sl.Level; i >= 0; i-- {
 		for p.Link[i].Element.Key < k {
 			p = p.Link[i]
 		}
@@ -88,7 +110,7 @@ func (sl *SkipList) Search(k KeyType, x *Entry) bool {
 	return x.Key == k
 }
 
-// SaveSearch 查找某一个key的位置
+// SaveSearch 查找某一个key的位置，为了实现插入和删除设计的私有函数
 func (sl *SkipList) saveSearch(k KeyType) *SkipNode {
 	if k >= sl.TailKey {
 		return nil
@@ -98,11 +120,12 @@ func (sl *SkipList) saveSearch(k KeyType) *SkipNode {
 		for p.Link[i].Element.Key < k {
 			p = p.Link[i]
 		}
-		if len(sl.Last) <= 0 {
-			sl.Last = append(sl.Last, p)
-		} else {
-			sl.Last[i] = p
-		}
+		sl.Last[i] = p
+		//if len(sl.Last) <= 0 {
+		//	sl.Last = append(sl.Last, p)
+		//} else {
+		//	sl.Last[i] = p
+		//}
 	}
 	return p.Link[0]
 }
@@ -116,6 +139,9 @@ func (sl *SkipList) Insert(x Entry) bool {
 		return false
 	}
 	p = sl.saveSearch(x.Key)
+	if p == nil {
+		return false
+	}
 	if p.Element.Key == x.Key {
 		log.Printf("duplicate")
 		return false
@@ -124,14 +150,17 @@ func (sl *SkipList) Insert(x Entry) bool {
 	if lev > sl.Level {
 		sl.Level += 1
 		lev = sl.Level
-		sl.Last = append(sl.Last, sl.Head)
+		sl.Last[lev] = sl.Head
 		//sl.Last[lev] = sl.Head
 	}
 	y = NewSkipNode(lev)
 	y.Element = x
 	for i = 0; i <= lev; i++ {
-		y.Link = append(y.Link, sl.Last[i].Link[i])
-		//y.Link[i] = sl.Last[i].Link[i]
+		if len(y.Link) > i {
+			y.Link[i] = sl.Last[i].Link[i]
+		} else {
+			y.Link = append(y.Link, sl.Last[i].Link[i])
+		}
 		sl.Last[i].Link[i] = y
 	}
 	return true
