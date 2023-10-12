@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"datastruct-go/dataStruct/hashtable"
 	"datastruct-go/dataStruct/listarr"
 	"datastruct-go/dataStruct/tree"
 	"fmt"
@@ -129,9 +128,9 @@ func nginxPipe() {
 
 // testHFMCode 测试哈夫曼编码
 func testHFMCode() {
-	var w = make([]tree.T, 0, 6)
-	w = append(w, tree.T{W: 9}, tree.T{W: 11}, tree.T{W: 13}, tree.T{W: 3}, tree.T{W: 5}, tree.T{W: 12})
-	var ht tree.Btree = tree.CreateHFMTree(w, len(w))
+	var w = make([]tree.BnElement[int], 0, 6)
+	w = append(w, tree.BnElement[int]{W: 9}, tree.BnElement[int]{W: 11}, tree.BnElement[int]{W: 13}, tree.BnElement[int]{W: 3}, tree.BnElement[int]{W: 5}, tree.BnElement[int]{W: 12})
+	var ht = tree.CreateHFMTree[int](w, len(w))
 	fmt.Println(ht)
 }
 
@@ -153,51 +152,21 @@ func testUFset() {
 
 // testBFSearch 测试斐波那契搜索
 func testBFSearch() {
-	var lst *listarr.List = new(listarr.List)
+	var lst = new(listarr.List[int])
 	lst.CreateList(10)
-	lst.Push(listarr.T{Key: 1, Data: 1111})
-	lst.Push(listarr.T{Key: 2, Data: 2222})
-	lst.Push(listarr.T{Key: 3, Data: 3333})
-	lst.Push(listarr.T{Key: 4, Data: 4444})
-	lst.Push(listarr.T{Key: 5, Data: 5555})
-	lst.Push(listarr.T{Key: 6, Data: 6666})
-	lst.Push(listarr.T{Key: 7, Data: 7777})
+	lst.Push(listarr.ElementT[int]{Key: 1, Data: 1111})
+	lst.Push(listarr.ElementT[int]{Key: 2, Data: 2222})
+	lst.Push(listarr.ElementT[int]{Key: 3, Data: 3333})
+	lst.Push(listarr.ElementT[int]{Key: 4, Data: 4444})
+	lst.Push(listarr.ElementT[int]{Key: 5, Data: 5555})
+	lst.Push(listarr.ElementT[int]{Key: 6, Data: 6666})
+	lst.Push(listarr.ElementT[int]{Key: 7, Data: 7777})
 	fmt.Println(lst)
-	var x *listarr.T = new(listarr.T)
+	var x = new(listarr.ElementT[int])
 	var res bool = tree.BFSearch(*lst, 7, x)
 	if res == false {
 		log.Printf("斐波那契搜索返回false")
 		return
 	}
 	fmt.Println("斐波那契搜索函数返回：", x)
-
-}
-
-// testSkipTable 测试跳表
-func testSkipTable() {
-	var skip = hashtable.NewSkipList(100000, 10)
-	var insertArr = []hashtable.T{
-		{Key: 3, Data: 1},
-		{Key: 7, Data: 20},
-		{Key: 19, Data: 30},
-		{Key: 22, Data: 40},
-		{Key: 43, Data: 40},
-		{Key: 48, Data: 40},
-		{Key: 70, Data: 40},
-	}
-	for _, v := range insertArr {
-		insert := skip.Insert(v)
-		if !insert {
-			fmt.Println("insert失败:", v)
-		}
-	}
-	fmt.Println("skip的层级:", skip.Level)
-	var x *hashtable.T = new(hashtable.T)
-	var res = skip.Search(70, x)
-	if !res {
-		log.Fatalf("没有找到k")
-	}
-
-	fmt.Println(x, skip.Level)
-
 }
