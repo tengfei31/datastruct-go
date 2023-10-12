@@ -1,37 +1,36 @@
 package graph
 
 import (
-	"datastruct-go/dataStruct/base_interface"
 	"datastruct-go/dataStruct/stack"
 	"datastruct-go/dataStruct/tree"
 	"fmt"
 	"log"
 )
 
-//ENode 边结点结构
+// ENode 边结点结构
 type ENode struct {
 	AdjVex  int
 	W       T
 	NextArc *ENode
 }
 
-//AdjacencyTableGraph 邻接表表示法图的结构
+// AdjacencyTableGraph 邻接表表示法图的结构
 type AdjacencyTableGraph struct {
 	Vertices int
 	A        []*ENode
 }
 
-//InDegree 拓扑排序
+// InDegree 拓扑排序
 var InDegree []int
 
-//CreateGraph 构造一个有n个顶点，但不包含边的有向图
+// CreateGraph 构造一个有n个顶点，但不包含边的有向图
 func (g *AdjacencyTableGraph) CreateGraph(n int) {
 	g.Vertices = n
 	g.A = make([]*ENode, 0, n)
 	InDegree = make([]int, 0, n)
 }
 
-//NewENode 构建新的边结点
+// NewENode 构建新的边结点
 func NewENode(vex int, weight T, nextarc *ENode) *ENode {
 	var p *ENode = new(ENode)
 	p.AdjVex = vex
@@ -40,7 +39,7 @@ func NewENode(vex int, weight T, nextarc *ENode) *ENode {
 	return p
 }
 
-//Exist <u, v>是否存在图中
+// Exist <u, v>是否存在图中
 func (g *AdjacencyTableGraph) Exist(u int, v int) bool {
 	var n int = g.Vertices
 	var p *ENode
@@ -56,7 +55,7 @@ func (g *AdjacencyTableGraph) Exist(u int, v int) bool {
 	return true
 }
 
-//Add <u, v>添加到图中
+// Add <u, v>添加到图中
 func (g *AdjacencyTableGraph) Add(u int, v int, w T) bool {
 	var n = g.Vertices
 	var p *ENode
@@ -70,7 +69,7 @@ func (g *AdjacencyTableGraph) Add(u int, v int, w T) bool {
 	return true
 }
 
-//Delete 从有向图中删除<u, v>
+// Delete 从有向图中删除<u, v>
 func (g *AdjacencyTableGraph) Delete(u int, v int) bool {
 	var n = g.Vertices
 	var p, q *ENode
@@ -142,7 +141,7 @@ func (g AdjacencyTableGraph) BFS(v T, visited []bool) {
 	}
 }
 
-//TraversalBFS 图的宽度优先搜索图
+// TraversalBFS 图的宽度优先搜索图
 func (g AdjacencyTableGraph) TraversalBFS() {
 	var visited []bool = make([]bool, 0, stack.MaxSize)
 	var n = g.Vertices
@@ -202,24 +201,23 @@ func (g AdjacencyTableGraph) Prim(k int, nearest []int, lowcost []T) {
 	}
 }
 
-//EdgeNode 最小代价生成树：克鲁斯卡尔算法结构
+// EdgeNode 最小代价生成树：克鲁斯卡尔算法结构
 type EdgeNode struct {
-	base_interface.Weight
 	U, V int
 	W    T
 }
 
-//GetWeight 获取权重
+// GetWeight 获取权重
 func (node EdgeNode) GetWeight() int {
 	return int(node.W)
 }
 
-//SetWeight 设置权重
+// SetWeight 设置权重
 func (node *EdgeNode) SetWeight(w int) {
 	node.W = T(w)
 }
 
-//Kruskal 最小代价生成树：克鲁斯卡尔算法
+// Kruskal 最小代价生成树：克鲁斯卡尔算法
 // 优先权队列pq中保存无向图边的集合，n是无向图的顶点个数
 func Kruskal(pq *tree.PQueue, n int) {
 	var (

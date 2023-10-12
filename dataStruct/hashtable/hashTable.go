@@ -21,8 +21,8 @@ type HashNode struct {
 
 // HashTable 散列表
 type HashTable struct {
-	M int
-	t []*HashNode
+	M int         // 散列表大小
+	t []*HashNode // 散列表集合
 }
 
 //构建线性探查散列表
