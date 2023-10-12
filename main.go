@@ -199,4 +199,5 @@ func testSkipTable() {
 	}
 
 	fmt.Println(x, skip.Level)
+
 }
