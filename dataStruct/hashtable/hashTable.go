@@ -36,7 +36,7 @@ func NewArray(len int) []*HashNode {
 func CreateHashTable(htb *HashTable, divitor int) {
 	var i int
 	htb.M = divitor
-	htb.t = NewArray(htb.M)
+	htb.t = make([]*HashNode, htb.M) //NewArray(htb.M)
 	for i = 0; i < htb.M; i++ {
 		//构造每个节点，并标记该节点为空
 		var tmpNode = new(HashNode)
