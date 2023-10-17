@@ -15,8 +15,8 @@ const (
 
 // HashNode 节点
 type HashNode struct {
-	Empty   bool
-	Element Entry
+	Empty   bool  //该节点是否为空
+	Element Entry //该节点具体值
 }
 
 // HashTable 散列表
@@ -41,13 +41,13 @@ func CreateHashTable(htb *HashTable, divitor int) {
 	htb.M = divitor
 	htb.t = NewArray(htb.M)
 	for i = 0; i < htb.M; i++ {
-		//var tmp = new(HashNode)
-		//tmp.Empty = true
-		//tmp.Element.Key = NeverUsed
-		//htb.t = append(htb.t, tmp)
-		htb.t[i] = new(HashNode)
-		htb.t[i].Empty = true
-		htb.t[i].Element.Key = NeverUsed
+		var tmp = new(HashNode)
+		tmp.Empty = true
+		tmp.Element.Key = NeverUsed
+		htb.t[i] = tmp
+		//htb.t[i] = new(HashNode)
+		//htb.t[i].Empty = true
+		//htb.t[i].Element.Key = NeverUsed
 	}
 }
 
@@ -59,6 +59,7 @@ func (htb *HashTable) HSearch(k KeyType, pos *int) int {
 	if *pos < 0 {
 		*pos = htb.M + *pos
 	}
+	//记录初始位置
 	i = *pos
 	//表示未找到空值的位置
 	j = -1
@@ -75,6 +76,7 @@ func (htb *HashTable) HSearch(k KeyType, pos *int) int {
 		if htb.t[*pos].Element.Key == k {
 			return Success
 		}
+		//如果找不到就向下一个位置寻找
 		*pos = (*pos + 1) % htb.M
 
 		if *pos == i {
