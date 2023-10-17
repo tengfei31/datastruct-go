@@ -35,19 +35,15 @@ func NewArray(len int) []*HashNode {
 // CreateHashTable 创建空的线性探查散列表
 func CreateHashTable(htb *HashTable, divitor int) {
 	var i int
-	if htb == nil {
-		htb = new(HashTable)
-	}
 	htb.M = divitor
 	htb.t = NewArray(htb.M)
 	for i = 0; i < htb.M; i++ {
-		var tmp = new(HashNode)
-		tmp.Empty = true
-		tmp.Element.Key = NeverUsed
-		htb.t[i] = tmp
-		//htb.t[i] = new(HashNode)
-		//htb.t[i].Empty = true
-		//htb.t[i].Element.Key = NeverUsed
+		//构造每个节点，并标记该节点为空
+		var tmpNode = new(HashNode)
+		tmpNode.Empty = true
+		//将该节点的关键字值标记为未使用
+		tmpNode.Element.Key = NeverUsed
+		htb.t[i] = tmpNode
 	}
 }
 
