@@ -1,16 +1,17 @@
 package hashtable
 
-//HashTable 散列表
+// HashTable 散列表
 
 // NeverUsed 表示这个位置没有被使用
 const NeverUsed KeyType = 0
 
+// 搜索返回结果
 const (
-	UnderFlow int = iota
-	OverFlow
-	Success
-	Duplicate
-	NotPresent
+	UnderFlow  int = iota // UnderFlow 溢出
+	OverFlow              // OverFlow hash表满了
+	Success               // Success 搜索成功
+	Duplicate             // Duplicate hash表有重复
+	NotPresent            // NotPresent hash表里不存在
 )
 
 // HashNode 节点
@@ -21,8 +22,9 @@ type HashNode struct {
 
 // HashTable 散列表
 type HashTable struct {
-	M int         // 散列表大小
-	t []*HashNode // 散列表集合
+	M        int         // 散列表大小
+	PrimeNum int         //固定一个素数,最好与hash表大小接近
+	t        []*HashNode // 散列表集合
 }
 
 //构建线性探查散列表
@@ -36,6 +38,10 @@ func NewArray(len int) []*HashNode {
 func CreateHashTable(htb *HashTable, divitor int) {
 	var i int
 	htb.M = divitor
+	htb.PrimeNum = divitor - 2
+	if divitor%2 == 0 {
+		htb.PrimeNum = divitor - 1
+	}
 	htb.t = make([]*HashNode, htb.M)
 	for i = 0; i < htb.M; i++ {
 		//构造每个节点，并标记该节点为空
@@ -49,8 +55,8 @@ func CreateHashTable(htb *HashTable, divitor int) {
 
 // hSearch 线性探查散列表的搜索
 func (htb *HashTable) hSearch(k KeyType, pos *int) int {
-	var i int      //记录初始位置
-	var j int = -1 //表示未找到空值的位置
+	var i int  //记录初始位置
+	var j = -1 //表示未找到空值的位置
 	*pos = int(k) % htb.M
 	//计算基地址
 	if *pos < 0 {
@@ -70,9 +76,12 @@ func (htb *HashTable) hSearch(k KeyType, pos *int) int {
 		if htb.t[*pos].Element.Key == k {
 			return Success
 		}
-		//如果找不到就向下一个位置寻找
+		//方法1、如果找不到就向下一个位置寻找
 		*pos = (*pos + 1) % htb.M
+		//方法2、伪随机探查法
+		//*pos = (*pos + htb.PrimeNum) % htb.M
 
+		//搜索完整个表了
 		if *pos == i {
 			break
 		}

@@ -8,16 +8,17 @@ import (
 // TestHashTable 测试散列表
 func TestHashTable(t *testing.T) {
 	var hashTB = new(HashTable)
-	var divitor = 6
+	var divitor = 8
 	//初始化
 	CreateHashTable(hashTB, divitor)
 	var insertArr = []Entry{
 		{Key: 1, Data: 1},
-		{Key: 2, Data: 2},
-		{Key: 3, Data: 3},
-		{Key: 4, Data: 4},
+		{Key: 16, Data: 2},
+		{Key: 32, Data: 3},
+		{Key: 48, Data: 4},
 		{Key: 5, Data: 5},
 		{Key: 15, Data: 15},
+		{Key: 23, Data: 16},
 	}
 	for _, v := range insertArr {
 		var insert = hashTB.Insert(v)
