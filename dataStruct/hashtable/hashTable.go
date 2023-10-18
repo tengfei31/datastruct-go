@@ -36,7 +36,7 @@ func NewArray(len int) []*HashNode {
 func CreateHashTable(htb *HashTable, divitor int) {
 	var i int
 	htb.M = divitor
-	htb.t = make([]*HashNode, htb.M) //NewArray(htb.M)
+	htb.t = make([]*HashNode, htb.M)
 	for i = 0; i < htb.M; i++ {
 		//构造每个节点，并标记该节点为空
 		var tmpNode = new(HashNode)
@@ -47,18 +47,16 @@ func CreateHashTable(htb *HashTable, divitor int) {
 	}
 }
 
-// HSearch 线性探查散列表的搜索
-func (htb *HashTable) HSearch(k KeyType, pos *int) int {
-	var i, j int
+// hSearch 线性探查散列表的搜索
+func (htb *HashTable) hSearch(k KeyType, pos *int) int {
+	var i int      //记录初始位置
+	var j int = -1 //表示未找到空值的位置
 	*pos = int(k) % htb.M
 	//计算基地址
 	if *pos < 0 {
 		*pos = htb.M + *pos
 	}
-	//记录初始位置
 	i = *pos
-	//表示未找到空值的位置
-	j = -1
 	for {
 		//首次遇到空值的位置
 		if htb.t[*pos].Element.Key == NeverUsed && j == -1 {
@@ -91,7 +89,7 @@ func (htb *HashTable) HSearch(k KeyType, pos *int) int {
 // Search  线性探查散列表的搜索
 func (htb *HashTable) Search(k KeyType, x *Entry) bool {
 	var pos = new(int)
-	result := htb.HSearch(k, pos)
+	result := htb.hSearch(k, pos)
 	if result == Success {
 		*x = htb.t[*pos].Element
 		return true
@@ -102,7 +100,7 @@ func (htb *HashTable) Search(k KeyType, x *Entry) bool {
 // Insert 线性探查散列表的插入
 func (htb *HashTable) Insert(x Entry) bool {
 	var pos = new(int)
-	result := htb.HSearch(x.Key, pos)
+	result := htb.hSearch(x.Key, pos)
 	//如果原表未满且不包含重复元素
 	if result == NotPresent {
 		htb.t[*pos].Element = x
@@ -117,7 +115,7 @@ func (htb *HashTable) Insert(x Entry) bool {
 // Delete 线性探查散列表的删除
 func (htb *HashTable) Delete(k KeyType, x *Entry) bool {
 	var pos = new(int)
-	result := htb.HSearch(k, pos)
+	result := htb.hSearch(k, pos)
 	//搜索到，删除成功
 	if result == Success {
 		*x = htb.t[*pos].Element

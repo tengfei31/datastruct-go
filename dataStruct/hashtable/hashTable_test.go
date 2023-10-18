@@ -1,7 +1,6 @@
 package hashtable
 
 import (
-	"fmt"
 	"log"
 	"testing"
 )
@@ -9,7 +8,7 @@ import (
 // TestHashTable 测试散列表
 func TestHashTable(t *testing.T) {
 	var hashTB = new(HashTable)
-	var divitor = 13
+	var divitor = 6
 	//初始化
 	CreateHashTable(hashTB, divitor)
 	var insertArr = []Entry{
@@ -23,32 +22,32 @@ func TestHashTable(t *testing.T) {
 	for _, v := range insertArr {
 		var insert = hashTB.Insert(v)
 		if !insert {
-			log.Println("插入失败", v)
+			t.Error("插入失败", v)
 			continue
 		}
 	}
+	loopHashtable(hashTB)
 	var x = new(Entry)
 	//搜索
 	var searchKey KeyType = 15
 	var search = hashTB.Search(searchKey, x)
 	if !search {
-		log.Fatalf("没有找到:%d", searchKey)
+		t.Errorf("没有找到:%d", searchKey)
 	}
-	loopHashtable(hashTB)
-	fmt.Println("散列表搜索结果:", x)
+	t.Log("散列表搜索结果:", x)
 
 	//删除
 	var del = hashTB.Delete(searchKey, x)
 	if !del {
-		log.Fatalf("删除失败:%d", searchKey)
+		t.Errorf("删除失败:%d", searchKey)
 	}
 	loopHashtable(hashTB)
-	fmt.Println("散列表删除结果:", x)
+	t.Log("散列表删除结果:", x)
 
 	//插入
 	var newInsert = hashTB.Insert(*x)
 	if !newInsert {
-		log.Println("插入失败", *x)
+		t.Error("插入失败", *x)
 	}
 	loopHashtable(hashTB)
 }
